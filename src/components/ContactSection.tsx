@@ -30,15 +30,9 @@ const ContactSection = () => {
               href: "mailto:hello@fillzapp.com",
             },
             {
-              icon: MessageSquare,
-              title: "Chat with us",
-              detail: "We reply within 24h",
-              href: "#",
-            },
-            {
               icon: MapPin,
               title: "Location",
-              detail: "San Francisco, CA",
+              detail: "Hyderabad, India",
               href: "#",
             },
           ].map((item, i) => (
