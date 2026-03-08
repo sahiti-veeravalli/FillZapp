@@ -1,12 +1,10 @@
 import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import StatsCards from "@/components/dashboard/StatsCards";
-import ApplicationsTable from "@/components/dashboard/ApplicationsTable";
-import AISuggestions from "@/components/dashboard/AISuggestions";
+import ProfileOverview from "@/components/dashboard/ProfileOverview";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -14,42 +12,33 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col">
         <DashboardHeader />
         <main className="flex-1 p-6 overflow-auto">
-          {activeTab === "dashboard" && (
-            <div className="space-y-6">
-              <StatsCards />
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                  <ApplicationsTable />
-                </div>
-                <AISuggestions />
-              </div>
+          {activeTab === "overview" && <ProfileOverview />}
+
+          {activeTab === "professional" && (
+            <div className="bg-card border border-border rounded-xl p-8">
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Professional</h2>
+              <p className="text-muted-foreground">Work experience and professional details coming soon.</p>
             </div>
           )}
 
-          {activeTab === "profile" && (
+          {activeTab === "education" && (
             <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">My Profile</h2>
-              <p className="text-muted-foreground">Profile forms coming soon — Basic Info, Address, Education, Work, Custom fields.</p>
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Education</h2>
+              <p className="text-muted-foreground">Education history details coming soon.</p>
             </div>
           )}
 
           {activeTab === "documents" && (
             <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Resume & Documents</h2>
-              <p className="text-muted-foreground">Upload 10th memo, inter memo, resume, and ID proofs here.</p>
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Documents</h2>
+              <p className="text-muted-foreground">Upload resumes, memos, and ID proofs here.</p>
             </div>
           )}
 
-          {activeTab === "applications" && (
-            <div className="space-y-6">
-              <ApplicationsTable />
-            </div>
-          )}
-
-          {activeTab === "insights" && (
+          {activeTab === "custom-fields" && (
             <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Match Insights</h2>
-              <p className="text-muted-foreground">AI-powered field matching analytics coming soon.</p>
+              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Custom Fields</h2>
+              <p className="text-muted-foreground">Add custom autofill fields coming soon.</p>
             </div>
           )}
 
