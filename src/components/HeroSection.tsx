@@ -1,7 +1,9 @@
-import { ArrowRight, Puzzle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, useMotionValue, useTransform, useMotionTemplate } from "framer-motion";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const HeroSection = () => {
   const btnRef = useRef<HTMLDivElement>(null);
