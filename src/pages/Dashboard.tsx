@@ -36,6 +36,7 @@ const Dashboard = () => {
           {activeTab === "personal" && <PersonalInfoSection />}
           {activeTab === "professional" && <ProfessionalSection />}
           {activeTab === "education" && <EducationSection />}
+          {activeTab === "government-ids" && <GovernmentIDsSection />}
           {activeTab === "documents" && <DocumentsSection />}
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />
