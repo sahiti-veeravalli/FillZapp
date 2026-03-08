@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react";
+import { Zap, Linkedin } from "lucide-react";
 
 const Footer = () => (
   <footer className="py-12 px-6 border-t border-border">
