@@ -75,31 +75,7 @@ const SettingsSection = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {/* Appearance */}
-        <div className="bg-card border border-border rounded-xl p-5 hover-glow">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Palette className="w-4 h-4 text-primary" />
-            </div>
-            <h3 className="text-base font-display font-bold text-foreground">Appearance</h3>
-          </div>
-
-          <div className="flex items-center justify-between py-3 border-b border-border">
-            <div>
-              <p className="text-sm font-medium text-foreground">Theme</p>
-              <p className="text-xs text-muted-foreground mt-0.5">Switch between light and dark mode</p>
-            </div>
-            <button
-              onClick={toggle}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted text-sm font-medium text-foreground hover:bg-muted/80 transition-colors"
-            >
-              {theme === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-              {theme === "dark" ? "Dark" : "Light"}
-            </button>
-          </div>
-        </div>
-
-        {/* Account */}
+        {/* Account & Appearance combined */}
         <div className="bg-card border border-border rounded-xl p-5 hover-glow">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -115,6 +91,19 @@ const SettingsSection = () => {
           <div className="py-3 border-b border-border">
             <p className="text-xs font-medium text-muted-foreground mb-1">Display Name</p>
             <p className="text-sm text-foreground">{user?.displayName || "—"}</p>
+          </div>
+          <div className="flex items-center justify-between py-3 border-b border-border">
+            <div>
+              <p className="text-sm font-medium text-foreground">Theme</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Switch between light and dark mode</p>
+            </div>
+            <button
+              onClick={toggle}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted text-sm font-medium text-foreground hover:bg-muted/80 transition-colors"
+            >
+              {theme === "dark" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+              {theme === "dark" ? "Dark" : "Light"}
+            </button>
           </div>
           <div className="pt-3">
             <Button variant="outline" size="sm" onClick={handleLogout} className="gap-2 text-destructive hover:text-destructive">
