@@ -25,21 +25,28 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="py-28 px-6 bg-secondary/30">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl sm:text-5xl font-bold font-display text-center mb-16">
-          Why <span className="gradient-text">FillZapp</span>?
+    <section id="features" className="py-28 px-6 bg-muted/50">
+      <div className="section-container">
+        <h2 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-20">
+          Why <span className="text-primary">FillZapp</span>?
         </h2>
 
-        <div className="grid sm:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-2 gap-8">
           {features.map((f) => (
-            <div key={f.title} className="flex gap-5 p-6 rounded-2xl glass hover:border-primary/20 transition-all">
-              <div className="shrink-0 w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                <f.icon className="w-5 h-5 text-accent" />
+            <div
+              key={f.title}
+              className="flex gap-5 p-7 rounded-2xl bg-background border border-border hover:border-primary/30 transition-all"
+            >
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
+                <f.icon className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-lg mb-1">{f.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
+                <h3 className="font-display font-bold text-lg mb-1 tracking-tight">
+                  {f.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {f.desc}
+                </p>
               </div>
             </div>
           ))}
