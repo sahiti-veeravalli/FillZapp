@@ -27,16 +27,8 @@ interface SearchableItem {
 }
 
 const searchIndex: SearchableItem[] = [
-  // Overview
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "fullName", fieldLabel: "Full Name" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "email", fieldLabel: "Email" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "phone", fieldLabel: "Phone" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "address", fieldLabel: "Address" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "dateOfBirth", fieldLabel: "Date of Birth" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "university", fieldLabel: "University" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "degree", fieldLabel: "Degree" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "graduationYear", fieldLabel: "Graduation Year" },
-  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "gpa", fieldLabel: "GPA" },
+  // Overview (section-level only — individual fields route to their editable sections)
+  { tab: "overview", tabLabel: "Overview", tabIcon: User, fieldKey: "overview", fieldLabel: "Profile Overview" },
 
   // Personal Info
   { tab: "personal", tabLabel: "Personal Info", tabIcon: UserCircle, fieldKey: "fullName", fieldLabel: "Full Name" },
