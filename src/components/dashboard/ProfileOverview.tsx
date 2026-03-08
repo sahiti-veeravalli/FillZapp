@@ -26,16 +26,31 @@ const stats = [
   { value: "2.5 hrs", label: "Time Saved", color: "text-primary" },
 ];
 
-const ReadOnlyField = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-center justify-between py-3 border-b border-border last:border-b-0">
-    <div className="flex-1">
-      <p className="text-xs font-medium text-muted-foreground mb-1">{label}</p>
-      <p className="text-sm text-foreground">{value || "—"}</p>
-    </div>
-  </div>
-);
+const ReadOnlyField = ({ label, value, fieldKey, highlighted }: { label: string; value: string; fieldKey: string; highlighted?: boolean }) => {
+  useEffect(() => {
+    if (highlighted) {
+      document.getElementById(`field-${fieldKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [highlighted, fieldKey]);
 
-const ProfileOverview = () => {
+  return (
+    <div
+      id={`field-${fieldKey}`}
+      className={`flex items-center justify-between py-3 border-b border-border last:border-b-0 transition-all duration-700 rounded-md ${
+        highlighted
+          ? "bg-primary/10 ring-2 ring-primary/40 shadow-[0_0_15px_hsl(var(--primary)/0.2)] px-3 -mx-3"
+          : ""
+      }`}
+    >
+      <div className="flex-1">
+        <p className="text-xs font-medium text-muted-foreground mb-1">{label}</p>
+        <p className="text-sm text-foreground">{value || "—"}</p>
+      </div>
+    </div>
+  );
+};
+
+const ProfileOverview = ({ highlightField }: { highlightField?: string | null }) => {
   const { user } = useAuth();
   const [data, setData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
@@ -101,7 +116,7 @@ const ProfileOverview = () => {
             <h2 className="text-xl font-display font-bold text-foreground">Personal Information</h2>
           </div>
           {personalFields.map((f) => (
-            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
+            <ReadOnlyField key={f.key} fieldKey={f.key} label={f.label} value={data[f.key] || ""} highlighted={highlightField === f.key} />
           ))}
         </div>
 
@@ -114,7 +129,7 @@ const ProfileOverview = () => {
             <h2 className="text-xl font-display font-bold text-foreground">Education</h2>
           </div>
           {educationFields.map((f) => (
-            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
+            <ReadOnlyField key={f.key} fieldKey={f.key} label={f.label} value={data[f.key] || ""} highlighted={highlightField === f.key} />
           ))}
         </div>
       </div>

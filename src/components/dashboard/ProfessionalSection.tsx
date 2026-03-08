@@ -31,7 +31,7 @@ const groups: FieldGroup[] = [
   },
 ];
 
-const ProfessionalSection = () => (
+const ProfessionalSection = ({ highlightField }: { highlightField?: string | null }) => (
   <EditableSection
     title="Professional"
     subtitle="Manage your professional links, credentials, and work details."
@@ -39,6 +39,7 @@ const ProfessionalSection = () => (
     firestoreKey="professional"
     defaultFields={allFields}
     groups={groups}
+    highlightField={highlightField}
   />
 );
 

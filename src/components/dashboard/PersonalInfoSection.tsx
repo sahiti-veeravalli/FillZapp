@@ -39,7 +39,7 @@ const groups: FieldGroup[] = [
   },
 ];
 
-const PersonalInfoSection = () => {
+const PersonalInfoSection = ({ highlightField }: { highlightField?: string | null }) => {
   return (
     <EditableSection
       title="Personal Information"
@@ -48,6 +48,7 @@ const PersonalInfoSection = () => {
       firestoreKey="personal"
       defaultFields={allFields}
       groups={groups}
+      highlightField={highlightField}
     />
   );
 };

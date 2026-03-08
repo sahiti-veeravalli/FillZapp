@@ -31,7 +31,7 @@ const groups: FieldGroup[] = [
   },
 ];
 
-const GovernmentIDsSection = () => (
+const GovernmentIDsSection = ({ highlightField }: { highlightField?: string | null }) => (
   <EditableSection
     title="Government IDs"
     subtitle="Your identity document details for applications and verification."
@@ -39,6 +39,7 @@ const GovernmentIDsSection = () => (
     firestoreKey="governmentIds"
     defaultFields={defaultFields}
     groups={groups}
+    highlightField={highlightField}
   />
 );
 

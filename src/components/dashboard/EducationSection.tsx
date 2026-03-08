@@ -31,7 +31,7 @@ const groups: FieldGroup[] = [
   },
 ];
 
-const EducationSection = () => (
+const EducationSection = ({ highlightField }: { highlightField?: string | null }) => (
   <EditableSection
     title="Education"
     subtitle="Manage your education history."
@@ -39,6 +39,7 @@ const EducationSection = () => (
     firestoreKey="education"
     defaultFields={allFields}
     groups={groups}
+    highlightField={highlightField}
   />
 );
 

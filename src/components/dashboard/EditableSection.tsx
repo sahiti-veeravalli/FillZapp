@@ -33,9 +33,10 @@ interface EditableSectionProps {
   firestoreKey: string;
   defaultFields: FieldItem[];
   groups?: FieldGroup[];
+  highlightField?: string | null;
 }
 
-const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFields, groups }: EditableSectionProps) => {
+const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFields, groups, highlightField }: EditableSectionProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [data, setData] = useState<Record<string, string>>({});
@@ -161,6 +162,8 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
     return (
       <EditableField
         key={f.key}
+        fieldKey={f.key}
+        highlighted={highlightField === f.key}
         label={f.label}
         value={data[f.key] || ""}
         password={f.hasPassword ? (data[`${f.key}_password`] || "") : undefined}
@@ -292,7 +295,8 @@ const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNote
 );
 
 /* ── Editable Field (supports paired username + password) ── */
-const EditableField = ({ label, value, password, isEditing, isCustom, isPassword, hasPassword, notes, onEdit, onSave, onSavePair, onDelete }: {
+const EditableField = ({ fieldKey, highlighted, label, value, password, isEditing, isCustom, isPassword, hasPassword, notes, onEdit, onSave, onSavePair, onDelete }: {
+  fieldKey: string; highlighted?: boolean;
   label: string; value: string; password?: string; isEditing: boolean; isCustom?: boolean;
   isPassword?: boolean; hasPassword?: boolean; notes?: string;
   onEdit: () => void; onSave: (v: string) => void; onSavePair: (main: string, pass: string) => void; onDelete: () => void;
@@ -302,6 +306,13 @@ const EditableField = ({ label, value, password, isEditing, isCustom, isPassword
   const [passVisible, setPassVisible] = useState(false);
   useEffect(() => { setTempVal(value); }, [value]);
   useEffect(() => { setTempPass(password || ""); }, [password]);
+
+  // Auto-scroll into view when highlighted
+  useEffect(() => {
+    if (highlighted) {
+      document.getElementById(`field-${fieldKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [highlighted, fieldKey]);
 
   const handleSave = () => {
     if (hasPassword) {
@@ -314,7 +325,14 @@ const EditableField = ({ label, value, password, isEditing, isCustom, isPassword
   const maskedPass = password ? "••••••••" : "—";
 
   return (
-    <div className="py-3 border-b border-border last:border-b-0">
+    <div
+      id={`field-${fieldKey}`}
+      className={`py-3 border-b border-border last:border-b-0 transition-all duration-700 rounded-md ${
+        highlighted
+          ? "bg-primary/10 ring-2 ring-primary/40 shadow-[0_0_15px_hsl(var(--primary)/0.2)] px-3 -mx-3"
+          : ""
+      }`}
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 mb-1">
           <p className="text-xs font-medium text-muted-foreground">{label}</p>
