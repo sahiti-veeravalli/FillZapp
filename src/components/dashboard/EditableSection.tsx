@@ -33,6 +33,7 @@ interface EditableSectionProps {
   firestoreKey: string;
   defaultFields: FieldItem[];
   groups?: FieldGroup[];
+  highlightField?: string | null;
 }
 
 const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFields, groups }: EditableSectionProps) => {
