@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import { Zap, ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { Label } from "@/components/ui/label";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import BackgroundParticles from "@/components/BackgroundParticles";
