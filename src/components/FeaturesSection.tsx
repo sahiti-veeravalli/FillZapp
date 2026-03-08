@@ -1,5 +1,6 @@
 import { Shield, RefreshCw, Layout, Bell } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import GlowCard from "@/components/GlowCard";
 
 const features = [
@@ -25,71 +26,72 @@ const features = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
-    },
-  },
-} as const;
-
-const headingVariants = {
-  hidden: { opacity: 0, scale: 0.85, y: 40 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { type: "spring" as const, stiffness: 100, damping: 12, duration: 0.8 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.92 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 80, damping: 14 },
-  },
-};
-
-const iconBounce = {
-  hidden: { scale: 0, rotate: -30 },
-  visible: {
-    scale: 1,
-    rotate: 0,
-    transition: { type: "spring" as const, stiffness: 250, damping: 10, delay: 0.1 },
-  },
-};
-
 const FeaturesSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const headingRotate = useTransform(scrollYProgress, [0, 0.3], [-3, 0]);
+  const headingScale = useTransform(scrollYProgress, [0, 0.3], [0.85, 1]);
+
   return (
-    <section id="features" className="py-28 px-6 bg-muted/50 overflow-hidden">
-      <div className="section-container">
+    <section ref={sectionRef} id="features" className="py-28 px-6 bg-muted/50 overflow-hidden relative">
+      {/* Parallax background element */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ y: bgY }}
+      >
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-primary/3 blur-3xl" />
+      </motion.div>
+
+      <div className="section-container relative z-10">
         <motion.h2
-          variants={headingVariants}
-          initial="hidden"
-          whileInView="visible"
+          style={{ rotate: headingRotate, scale: headingScale }}
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
+          transition={{ type: "spring", stiffness: 80, damping: 14 }}
           className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-20"
         >
           Why <span className="text-primary">FillZapp</span>?
         </motion.h2>
 
-        <motion.div
-          className="grid sm:grid-cols-2 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          {features.map((f) => (
-            <motion.div key={f.title} variants={cardVariants}>
+        <div className="grid sm:grid-cols-2 gap-8">
+          {features.map((f, i) => (
+            <motion.div
+              key={f.title}
+              initial={{
+                opacity: 0,
+                y: 80,
+                x: i % 2 === 0 ? -60 : 60,
+                rotateZ: i % 2 === 0 ? -3 : 3,
+                scale: 0.85,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                x: 0,
+                rotateZ: 0,
+                scale: 1,
+              }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{
+                type: "spring",
+                stiffness: 70,
+                damping: 16,
+                delay: i * 0.1,
+              }}
+            >
               <GlowCard className="flex gap-5 p-7 rounded-2xl bg-background border border-border h-full">
                 <motion.div
-                  variants={iconBounce}
+                  initial={{ scale: 0, rotate: -180 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ type: "spring", stiffness: 250, damping: 10, delay: 0.2 + i * 0.1 }}
                   className="shrink-0 w-12 h-12 rounded-xl bg-secondary flex items-center justify-center"
                 >
                   <f.icon className="w-6 h-6 text-primary" />
@@ -105,7 +107,7 @@ const FeaturesSection = () => {
               </GlowCard>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
