@@ -10,7 +10,7 @@ interface DashboardHeaderProps {
   onSearchOpen: () => void;
 }
 
-const DashboardHeader = ({ sidebarOpen, onToggleSidebar }: DashboardHeaderProps) => {
+const DashboardHeader = ({ sidebarOpen, onToggleSidebar, onSearchOpen }: DashboardHeaderProps) => {
   const { theme, toggle } = useTheme();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
