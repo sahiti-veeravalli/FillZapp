@@ -1,4 +1,5 @@
 import { Shield, RefreshCw, Layout, Bell } from "lucide-react";
+import { motion } from "framer-motion";
 import GlowCard from "@/components/GlowCard";
 
 const features = [
@@ -28,28 +29,39 @@ const FeaturesSection = () => {
   return (
     <section id="features" className="py-28 px-6 bg-muted/50">
       <div className="section-container">
-        <h2 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-20">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-20"
+        >
           Why <span className="text-primary">FillZapp</span>?
-        </h2>
+        </motion.h2>
 
         <div className="grid sm:grid-cols-2 gap-8">
-          {features.map((f) => (
-            <GlowCard
+          {features.map((f, i) => (
+            <motion.div
               key={f.title}
-              className="flex gap-5 p-7 rounded-2xl bg-background border border-border"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
-                <f.icon className="w-6 h-6 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-display font-bold text-lg mb-1 tracking-tight">
-                  {f.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {f.desc}
-                </p>
-              </div>
-            </GlowCard>
+              <GlowCard className="flex gap-5 p-7 rounded-2xl bg-background border border-border">
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
+                  <f.icon className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-lg mb-1 tracking-tight">
+                    {f.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {f.desc}
+                  </p>
+                </div>
+              </GlowCard>
+            </motion.div>
           ))}
         </div>
       </div>
