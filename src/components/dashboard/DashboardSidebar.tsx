@@ -31,8 +31,8 @@ const DashboardSidebar = ({ activeTab, onTabChange, onClose, customFields = [] }
 
   return (
     <aside className="w-64 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
-      <button onClick={() => navigate("/")} className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center">
+      <button onClick={() => navigate("/")} className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity group">
+        <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center group-hover:shadow-[0_0_15px_hsl(var(--primary)/0.4)] transition-shadow duration-300">
           <Zap className="w-5 h-5 text-primary" />
         </div>
         <span className="font-display text-xl font-bold text-sidebar-foreground">FillZapp</span>
