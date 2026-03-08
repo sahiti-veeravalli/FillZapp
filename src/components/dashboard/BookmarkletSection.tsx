@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bookmark, Copy, Check, Zap, GripHorizontal, AlertCircle, ExternalLink } from "lucide-react";
+import { Bookmark, Copy, Check, Zap, AlertCircle } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
