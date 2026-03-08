@@ -1,4 +1,5 @@
 import { Database, ScanSearch, CheckCircle2 } from "lucide-react";
+import GlowCard from "@/components/GlowCard";
 
 const steps = [
   {
@@ -34,7 +35,10 @@ const HowItWorks = () => {
 
         <div className="grid md:grid-cols-3 gap-10">
           {steps.map((step, i) => (
-            <div key={step.title} className="group">
+            <GlowCard
+              key={step.title}
+              className="rounded-2xl border border-border bg-background p-8"
+            >
               <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
                 <step.icon className="w-7 h-7 text-primary" />
               </div>
@@ -47,7 +51,7 @@ const HowItWorks = () => {
               <p className="text-muted-foreground leading-relaxed">
                 {step.description}
               </p>
-            </div>
+            </GlowCard>
           ))}
         </div>
       </div>
