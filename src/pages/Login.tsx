@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { Zap, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { useState, useRef } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Zap, ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import BackgroundParticles from "@/components/BackgroundParticles";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 const GlowInput = ({
   id,
@@ -94,6 +96,8 @@ const PasswordInput = ({
 };
 
 const Login = () => {
+  const { signUp, signIn } = useAuth();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isSignUp, setIsSignUp] = useState(searchParams.get("mode") === "signup");
   const [fullName, setFullName] = useState("");
@@ -101,6 +105,7 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -152,11 +157,29 @@ const Login = () => {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    // TODO: Firebase auth integration
-    console.log(isSignUp ? "Sign up" : "Sign in", { fullName, email, phone, password });
+    setLoading(true);
+    try {
+      if (isSignUp) {
+        await signUp(email, password, fullName, phone);
+        toast.success("Account created successfully!");
+      } else {
+        await signIn(email, password);
+        toast.success("Welcome back!");
+      }
+      navigate("/dashboard");
+    } catch (err: any) {
+      const msg = err?.message?.includes("auth/email-already-in-use")
+        ? "Email already in use"
+        : err?.message?.includes("auth/invalid-credential")
+        ? "Invalid email or password"
+        : err?.message || "Something went wrong";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const FieldError = ({ field }: { field: string }) =>
@@ -253,9 +276,10 @@ const Login = () => {
                 <motion.div className="pointer-events-none absolute inset-0 rounded-full" style={{ background: btnGlow }} />
                 <button
                   type="submit"
-                  className="relative z-10 w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm shadow-[0_0_20px_-5px_hsla(168,80%,42%,0.15)] hover:shadow-[0_0_25px_-3px_hsla(168,80%,42%,0.3)] transition-shadow duration-300"
+                  disabled={loading}
+                  className="relative z-10 w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm shadow-[0_0_20px_-5px_hsla(168,80%,42%,0.15)] hover:shadow-[0_0_25px_-3px_hsla(168,80%,42%,0.3)] transition-shadow duration-300 disabled:opacity-60"
                 >
-                  {isSignUp ? "Create Account" : "Sign In"}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : isSignUp ? "Create Account" : "Sign In"}
                 </button>
               </motion.div>
 
