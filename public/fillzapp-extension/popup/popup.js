@@ -7,6 +7,7 @@ const statusEl = document.getElementById("status");
 const toggleAutofill = document.getElementById("toggle-autofill");
 const toggleConfirm = document.getElementById("toggle-confirm");
 const syncBtn = document.getElementById("sync-btn");
+const triggerBtn = document.getElementById("trigger-btn");
 const dashboardBtn = document.getElementById("dashboard-btn");
 const fieldCountEl = document.getElementById("field-count");
 
@@ -50,6 +51,16 @@ function saveSettings() {
   };
   chrome.runtime.sendMessage({ type: "SAVE_SETTINGS", settings });
 }
+
+// Manual trigger button
+triggerBtn.onclick = () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0]) {
+      chrome.tabs.sendMessage(tabs[0].id, { type: "MANUAL_TRIGGER" });
+      window.close();
+    }
+  });
+};
 
 // Sync button
 syncBtn.onclick = () => {
