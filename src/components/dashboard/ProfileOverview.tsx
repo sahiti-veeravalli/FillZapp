@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { User, Briefcase, GraduationCap } from "lucide-react";
+import { User, GraduationCap } from "lucide-react";
 
 interface FieldItem { key: string; label: string; isCustom?: boolean; }
 
