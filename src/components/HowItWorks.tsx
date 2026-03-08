@@ -12,15 +12,15 @@ const steps = [
   },
   {
     icon: ScanSearch,
-    title: "Extension detects forms",
+    title: "Drag the bookmarklet",
     description:
-      'Browse the web normally. When FillZapp spots a form, it shows an "Auto Fill" button — no action needed until you want it.',
+      'Go to your dashboard\'s Auto-Fill Tool tab and drag the "⚡ FillZapp" button to your bookmarks bar. One-time setup, takes 5 seconds.',
   },
   {
     icon: CheckCircle2,
     title: "One-click fill",
     description:
-      "Click Auto Fill. Known fields are instantly completed. A popup tells you what's done and highlights remaining fields.",
+      "Visit any form on the web and click the FillZapp bookmark. Fields are instantly filled and highlighted — no extensions needed.",
   },
 ];
 

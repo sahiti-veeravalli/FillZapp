@@ -59,15 +59,9 @@ const UseCasesSection = () => {
           style={{ x: headerX, opacity: headerOpacity }}
           className="text-center mb-16"
         >
-          <motion.span
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold tracking-wide uppercase mb-5 origin-left"
-          >
-            Use Cases
-          </motion.span>
+          <h2 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter">
+            Built for <span className="text-primary">every scenario</span>
+          </h2>
           <h2 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter">
             Built for <span className="text-primary">every scenario</span>
           </h2>
