@@ -157,11 +157,29 @@ const Login = () => {
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    // TODO: Firebase auth integration
-    console.log(isSignUp ? "Sign up" : "Sign in", { fullName, email, phone, password });
+    setLoading(true);
+    try {
+      if (isSignUp) {
+        await signUp(email, password, fullName, phone);
+        toast.success("Account created successfully!");
+      } else {
+        await signIn(email, password);
+        toast.success("Welcome back!");
+      }
+      navigate("/dashboard");
+    } catch (err: any) {
+      const msg = err?.message?.includes("auth/email-already-in-use")
+        ? "Email already in use"
+        : err?.message?.includes("auth/invalid-credential")
+        ? "Invalid email or password"
+        : err?.message || "Something went wrong";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const FieldError = ({ field }: { field: string }) =>
