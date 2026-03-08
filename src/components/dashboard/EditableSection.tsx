@@ -162,6 +162,8 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
     return (
       <EditableField
         key={f.key}
+        fieldKey={f.key}
+        highlighted={highlightField === f.key}
         label={f.label}
         value={data[f.key] || ""}
         password={f.hasPassword ? (data[`${f.key}_password`] || "") : undefined}
