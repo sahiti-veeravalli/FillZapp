@@ -183,8 +183,8 @@ const BookmarkletSection = () => {
             {bookmarkletUrl ? (
               <a
                 href={bookmarkletUrl}
-                onClick={(e) => e.preventDefault()}
                 draggable
+                title="Drag me to your bookmarks bar!"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-all duration-300 cursor-grab active:cursor-grabbing select-none"
               >
                 <Zap className="w-4 h-4" />
@@ -200,21 +200,24 @@ const BookmarkletSection = () => {
             </Badge>
           </div>
 
-          {/* Alternative: copy */}
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopy}
-              disabled={!bookmarkletUrl}
-              className="gap-2"
-            >
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              {copied ? "Copied!" : "Copy bookmarklet code"}
-            </Button>
-            <span className="text-xs text-muted-foreground">
-              Or paste manually into a new bookmark's URL field
-            </span>
+          {/* Alternative methods */}
+          <div className="space-y-3">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Can't drag? Try these:</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCopy}
+                disabled={!bookmarkletUrl}
+                className="gap-2"
+              >
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                {copied ? "Copied!" : "Copy bookmarklet code"}
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                Then: Right-click bookmarks bar → "Add page" → paste the code as the URL
+              </span>
+            </div>
           </div>
         </CardContent>
       </Card>
