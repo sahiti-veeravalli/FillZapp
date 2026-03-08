@@ -44,10 +44,10 @@ const CTASection = () => {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="text-muted-foreground text-lg mb-10"
           >
-            Free Chrome extension. No credit card required.
+            Free to use. No extensions needed. No credit card required.
           </motion.p>
           <motion.a
-            href="#"
+            href="/login?mode=register"
             initial={{ opacity: 0, y: 30, scale: 0.8 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
@@ -56,7 +56,7 @@ const CTASection = () => {
             whileTap={{ scale: 0.97 }}
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-display font-bold text-lg shadow-lg shadow-primary/25 transition-shadow hover:shadow-xl hover:shadow-primary/30"
           >
-            Install FillZapp Extension
+            Get Started Free
             <ArrowRight className="w-5 h-5" />
           </motion.a>
         </motion.div>

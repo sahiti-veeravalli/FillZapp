@@ -12,7 +12,7 @@ const features = [
   {
     icon: RefreshCw,
     title: "Always in sync",
-    desc: "Update info on the dashboard and the extension picks it up instantly.",
+    desc: "Update info on the dashboard and regenerate your bookmarklet to pick up changes instantly.",
   },
   {
     icon: Layout,
@@ -22,7 +22,7 @@ const features = [
   {
     icon: Bell,
     title: "Completion alerts",
-    desc: "After auto-fill, a popup tells you exactly which fields were filled and which need attention.",
+    desc: "After auto-fill, a toast tells you exactly how many fields were filled and which need attention.",
   },
 ];
 
