@@ -15,8 +15,11 @@ const Footer = () => (
           developed by{" "}
           <span style={{ fontFamily: "'Playfair Display', serif" }} className="text-primary font-bold italic text-xl sm:text-2xl">Sahiti</span>{" "}
           <span style={{ fontFamily: "'Playfair Display', serif" }} className="text-foreground font-bold italic text-xl sm:text-2xl">Veeravalli</span>
-          <a href="https://www.linkedin.com/in/sahiti-veeravalli/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors ml-1">
-            <Linkedin className="w-5 h-5" />
+          <a href="https://www.linkedin.com/in/sahiti-veeravalli/" target="_blank" rel="noopener noreferrer" className="ml-1 inline-flex">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 72 72">
+              <rect width="72" height="72" rx="8" fill="#0A66C2"/>
+              <path d="M20.5 29.5h6.8v21.7h-6.8V29.5zm3.4-10.8c2.2 0 3.9 1.8 3.9 3.9 0 2.2-1.8 3.9-3.9 3.9-2.2 0-3.9-1.8-3.9-3.9 0-2.2 1.7-3.9 3.9-3.9zM33.4 29.5h6.5v3h.1c.9-1.7 3.1-3.5 6.4-3.5 6.9 0 8.1 4.5 8.1 10.4v12h-6.8V40.9c0-2.5 0-5.6-3.4-5.6-3.4 0-4 2.7-4 5.4v10.5h-6.8V29.5z" fill="#fff"/>
+            </svg>
           </a>
         </p>
       </div>
