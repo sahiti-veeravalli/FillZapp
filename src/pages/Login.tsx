@@ -206,7 +206,7 @@ const Login = () => {
         >
           <div className="flex flex-col items-center mb-8">
             <div className="flex items-center gap-2 font-display font-extrabold text-2xl tracking-tight mb-2">
-              <Zap className="w-6 h-6 text-primary" />
+              <img src={logoImg} alt="FillZapp" className="w-7 h-7" />
               FillZapp
             </div>
             <p className="text-muted-foreground text-sm">

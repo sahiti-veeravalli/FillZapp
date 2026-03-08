@@ -73,7 +73,7 @@ const Footer = () => (
         {/* Brand */}
         <div className="space-y-4">
           <div className="flex items-center gap-2 font-display font-extrabold text-xl tracking-tight">
-            <Zap className="w-6 h-6" />
+            <img src={logoImg} alt="FillZapp" className="w-7 h-7" />
             FillZapp
           </div>
           <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-xs">
