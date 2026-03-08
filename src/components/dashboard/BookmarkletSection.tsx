@@ -107,6 +107,7 @@ function generateBookmarkletCode(data: Record<string, string>): string {
 const BookmarkletSection = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState<Record<string, string> | null>(null);
   const [bookmarkletUrl, setBookmarkletUrl] = useState("");
   const [loading, setLoading] = useState(true);
