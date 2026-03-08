@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Zap, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { motion } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import GlowInput from "@/components/GlowInput";
+import GlowButton from "@/components/GlowButton";
+import CursorParticles from "@/components/CursorParticles";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const cardMouseX = useMotionValue(0);
+  const cardMouseY = useMotionValue(0);
+
+  const handleCardMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    cardMouseX.set(e.clientX - rect.left);
+    cardMouseY.set(e.clientY - rect.top);
+  };
+
+  const cardGlow = useMotionTemplate`radial-gradient(400px circle at ${cardMouseX}px ${cardMouseY}px, hsla(168, 80%, 42%, 0.06), transparent 80%)`;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <div className="section-container pt-8">
+    <div className="min-h-screen bg-background flex flex-col relative">
+      <CursorParticles />
+      <div className="section-container pt-8 relative z-10">
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
           <ArrowLeft className="w-4 h-4" />
           Back to home
         </Link>
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-6">
+      <div className="flex-1 flex items-center justify-center px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -35,25 +49,30 @@ const Login = () => {
             </p>
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-5">
+          <motion.div
+            ref={cardRef}
+            onMouseMove={handleCardMouseMove}
+            className="relative bg-card border border-border rounded-2xl p-6 shadow-sm space-y-5 overflow-hidden"
+            style={{ background: cardGlow }}
+          >
             {isSignUp && (
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="Jane Doe" className="rounded-xl" />
+                <GlowInput id="name" placeholder="Jane Doe" />
               </div>
             )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="you@example.com" className="rounded-xl" />
+              <GlowInput id="email" type="email" placeholder="you@example.com" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="••••••••" className="rounded-xl" />
+              <GlowInput id="password" type="password" placeholder="••••••••" />
             </div>
 
-            <Button className="w-full font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90">
+            <GlowButton className="w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm">
               {isSignUp ? "Sign Up" : "Sign In"}
-            </Button>
+            </GlowButton>
 
             <p className="text-center text-sm text-muted-foreground">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
@@ -64,7 +83,7 @@ const Login = () => {
                 {isSignUp ? "Sign In" : "Sign Up"}
               </button>
             </p>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
