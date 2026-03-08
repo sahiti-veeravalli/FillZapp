@@ -10,7 +10,6 @@ import { useToast } from "@/hooks/use-toast";
 export interface CustomField {
   id: string;
   name: string;
-  value: string;
 }
 
 interface CustomFieldsProps {
