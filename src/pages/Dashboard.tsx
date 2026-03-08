@@ -11,7 +11,7 @@ import GovernmentIDsSection from "@/components/dashboard/GovernmentIDsSection";
 import FinancialSection from "@/components/dashboard/FinancialSection";
 import SocialProfilesSection from "@/components/dashboard/SocialProfilesSection";
 import CustomFields from "@/components/dashboard/CustomFields";
-import DocumentsSection from "@/components/dashboard/DocumentsSection";
+
 import SettingsSection from "@/components/dashboard/SettingsSection";
 import DashboardSearch, { type SearchResult } from "@/components/dashboard/DashboardSearch";
 import { type CustomField } from "@/components/dashboard/CustomFields";
