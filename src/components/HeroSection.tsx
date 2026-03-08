@@ -79,6 +79,7 @@ const HeroSection = () => {
           <motion.div ref={btnRef} style={{ scale: btnScale, boxShadow: btnShadow }} className="rounded-full">
             <Button
               size="lg"
+              onClick={() => navigate(user ? "/dashboard" : "/login")}
               className="relative text-base px-8 py-6 rounded-full font-display font-semibold transition-none"
             >
               Get Started
