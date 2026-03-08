@@ -30,16 +30,6 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" onClick={toggle} className="rounded-full">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.07, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm shadow-md shadow-primary/20 hover:shadow-[0_0_20px_hsla(168,80%,42%,0.5),0_0_40px_hsla(168,80%,42%,0.2)] transition-shadow duration-300"
-          >
-            <Puzzle className="w-4 h-4" />
-            Get Chrome Extension
-          </motion.a>
           <Link to="/login">
             <motion.div
               whileHover={{ scale: 1.07, y: -2 }}
