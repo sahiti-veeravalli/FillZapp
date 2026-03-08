@@ -38,9 +38,13 @@ const Dashboard = () => {
         <main className="flex-1 p-6 overflow-auto">
           {activeTab === "overview" && <ProfileOverview />}
           {activeTab === "personal" && <PersonalInfoSection />}
+          {activeTab === "addresses" && <AddressesSection />}
           {activeTab === "professional" && <ProfessionalSection />}
           {activeTab === "education" && <EducationSection />}
+          {activeTab === "job-preferences" && <JobPreferencesSection />}
           {activeTab === "government-ids" && <GovernmentIDsSection />}
+          {activeTab === "financial" && <FinancialSection />}
+          {activeTab === "social-profiles" && <SocialProfilesSection />}
           {activeTab === "documents" && <DocumentsSection />}
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />
