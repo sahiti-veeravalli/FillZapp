@@ -51,26 +51,27 @@ const DocumentsSection = () => {
     setUploading(true);
 
     try {
-      const newDocs: StoredDocument[] = [];
-      for (const file of Array.from(files)) {
-        const storagePath = `documents/${user.uid}/${Date.now()}_${file.name}`;
+      const fileArray = Array.from(files);
+
+      // Upload all files in parallel for speed
+      const uploadPromises = fileArray.map(async (file) => {
+        const storagePath = `documents/${user.uid}/${Date.now()}_${Math.random().toString(36).slice(2)}_${file.name}`;
         const storageRef = ref(storage, storagePath);
         await uploadBytes(storageRef, file);
         const url = await getDownloadURL(storageRef);
-
-        // Default label = filename without extension
         const label = file.name.replace(/\.[^/.]+$/, "");
 
-        newDocs.push({
+        return {
           id: Date.now().toString() + Math.random().toString(36).slice(2),
           fileName: file.name,
           label,
           url,
           storagePath,
           uploadedAt: new Date().toISOString(),
-        });
-      }
+        } as StoredDocument;
+      });
 
+      const newDocs = await Promise.all(uploadPromises);
       await saveDocs([...documents, ...newDocs]);
       toast({ title: "Uploaded", description: `${newDocs.length} file(s) uploaded.` });
     } catch {
