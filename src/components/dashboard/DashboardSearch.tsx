@@ -159,10 +159,13 @@ const DashboardSearch = ({ open, onOpenChange, onSelect }: DashboardSearchProps)
                 key={`${item.tab}-${item.fieldKey}`}
                 value={`${item.tabLabel} ${item.fieldLabel}`}
                 onSelect={() => {
-                  onSelect({ tab: item.tab, fieldKey: item.fieldKey });
+                  // Close first, then navigate after a tick so dialog doesn't swallow the event
                   onOpenChange(false);
+                  setTimeout(() => {
+                    onSelect({ tab: item.tab, fieldKey: item.fieldKey });
+                  }, 50);
                 }}
-                className="gap-3"
+                className="gap-3 cursor-pointer"
               >
                 <item.tabIcon className="w-4 h-4 text-muted-foreground shrink-0" />
                 <span>{item.fieldLabel}</span>
