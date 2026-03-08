@@ -5,6 +5,7 @@ import ProfileOverview from "@/components/dashboard/ProfileOverview";
 import ProfessionalSection from "@/components/dashboard/ProfessionalSection";
 import EducationSection from "@/components/dashboard/EducationSection";
 import CustomFields from "@/components/dashboard/CustomFields";
+import DocumentsSection from "@/components/dashboard/DocumentsSection";
 import { type CustomField } from "@/components/dashboard/CustomFields";
 
 const Dashboard = () => {
