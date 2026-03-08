@@ -1,9 +1,11 @@
 import { useRef } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 
-interface GlowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface GlowButtonProps {
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }
 
 const GlowButton = ({ children, className = "", ...props }: GlowButtonProps) => {
