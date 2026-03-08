@@ -9,8 +9,11 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="section-container flex items-center justify-between h-16">
-        <div className="flex items-center gap-2 font-display font-extrabold text-xl tracking-tight">
-          <Zap className="w-5 h-5 text-primary" />
+        <div className="flex items-center gap-2 font-display font-extrabold text-xl tracking-tight relative">
+          <span className="relative">
+            <span className="absolute inset-0 animate-pulse-glow blur-md rounded-full bg-primary/40" />
+            <Zap className="w-5 h-5 text-primary relative z-10 drop-shadow-[0_0_6px_hsla(168,80%,42%,0.6)]" />
+          </span>
           FillZapp
         </div>
 
