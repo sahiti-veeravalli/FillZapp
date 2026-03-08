@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
+import UseCasesSection from "@/components/UseCasesSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
