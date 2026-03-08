@@ -45,18 +45,18 @@ const DashboardHeader = ({ sidebarOpen, onToggleSidebar }: DashboardHeaderProps)
       </div>
       <div className="flex items-center gap-4">
         <button
-          onClick={toggle}
-          className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-        >
-          {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
-        <button
           onClick={() => navigate("/")}
           className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
           title="Go to home"
         >
           <Home className="w-5 h-5" />
+        </button>
+        <button
+          onClick={toggle}
+          className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        >
+          {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </button>
 
         {/* Profile avatar with hover dropdown */}
