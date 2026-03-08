@@ -137,10 +137,8 @@ const Index = () => {
         <div className="h-screen flex items-center justify-center overflow-y-auto">
           <FeaturesSection />
         </div>
-        <div className="h-screen flex items-end">
-          <div className="w-full">
-            <Footer />
-          </div>
+        <div className="h-screen">
+          <Footer />
         </div>
       </div>
     </div>
