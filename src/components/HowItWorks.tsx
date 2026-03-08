@@ -1,4 +1,5 @@
 import { Database, ScanSearch, CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 import GlowCard from "@/components/GlowCard";
 
 const steps = [
@@ -26,32 +27,49 @@ const HowItWorks = () => {
   return (
     <section id="how" className="py-28 px-6">
       <div className="section-container">
-        <h2 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-4">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-4"
+        >
           How it <span className="text-primary">works</span>
-        </h2>
-        <p className="text-muted-foreground text-center mb-20 max-w-xl mx-auto text-lg">
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-muted-foreground text-center mb-20 max-w-xl mx-auto text-lg"
+        >
           Three simple steps to never fill a form manually again.
-        </p>
+        </motion.p>
 
         <div className="grid md:grid-cols-3 gap-10">
           {steps.map((step, i) => (
-            <GlowCard
+            <motion.div
               key={step.title}
-              className="rounded-2xl border border-border bg-background p-8"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: i * 0.15 }}
             >
-              <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6 group-hover:bg-primary/10 transition-colors">
-                <step.icon className="w-7 h-7 text-primary" />
-              </div>
-              <div className="text-xs font-bold text-primary mb-2 font-display uppercase tracking-widest">
-                Step {i + 1}
-              </div>
-              <h3 className="text-2xl font-bold font-display tracking-tight mb-3">
-                {step.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {step.description}
-              </p>
-            </GlowCard>
+              <GlowCard className="rounded-2xl border border-border bg-background p-8">
+                <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6">
+                  <step.icon className="w-7 h-7 text-primary" />
+                </div>
+                <div className="text-xs font-bold text-primary mb-2 font-display uppercase tracking-widest">
+                  Step {i + 1}
+                </div>
+                <h3 className="text-2xl font-bold font-display tracking-tight mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {step.description}
+                </p>
+              </GlowCard>
+            </motion.div>
           ))}
         </div>
       </div>
