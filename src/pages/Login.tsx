@@ -276,9 +276,10 @@ const Login = () => {
                 <motion.div className="pointer-events-none absolute inset-0 rounded-full" style={{ background: btnGlow }} />
                 <button
                   type="submit"
-                  className="relative z-10 w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm shadow-[0_0_20px_-5px_hsla(168,80%,42%,0.15)] hover:shadow-[0_0_25px_-3px_hsla(168,80%,42%,0.3)] transition-shadow duration-300"
+                  disabled={loading}
+                  className="relative z-10 w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm shadow-[0_0_20px_-5px_hsla(168,80%,42%,0.15)] hover:shadow-[0_0_25px_-3px_hsla(168,80%,42%,0.3)] transition-shadow duration-300 disabled:opacity-60"
                 >
-                  {isSignUp ? "Create Account" : "Sign In"}
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : isSignUp ? "Create Account" : "Sign In"}
                 </button>
               </motion.div>
 
