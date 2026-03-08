@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { User, Briefcase, GraduationCap } from "lucide-react";
+import { User, GraduationCap } from "lucide-react";
 
 interface FieldItem { key: string; label: string; isCustom?: boolean; }
 
@@ -12,11 +12,6 @@ const defaultPersonal = [
   { key: "phone", label: "Phone" },
   { key: "address", label: "Address" },
   { key: "dateOfBirth", label: "Date of Birth" },
-];
-const defaultProfessional = [
-  { key: "linkedin", label: "LinkedIn" },
-  { key: "github", label: "GitHub" },
-  { key: "portfolio", label: "Portfolio" },
 ];
 const defaultEducation = [
   { key: "university", label: "University" },
@@ -73,7 +68,7 @@ const ProfileOverview = () => {
   }
 
   const personalFields = defaultPersonal;
-  const professionalFields = getFields(defaultProfessional, "professional");
+  
   const educationFields = getFields(defaultEducation, "education");
 
   return (
@@ -81,6 +76,11 @@ const ProfileOverview = () => {
       <div>
         <h1 className="text-3xl font-display font-bold text-foreground">Profile Overview</h1>
         <p className="text-muted-foreground mt-1">A summary of your saved information. Edit details in each section.</p>
+        <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">No field is mandatory.</span> Fill only what you're comfortable with — your data is encrypted and never shared. Add the details you find yourself typing repeatedly, and let auto-fill handle the rest.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -105,17 +105,6 @@ const ProfileOverview = () => {
           ))}
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-6 hover-glow">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-primary" />
-            </div>
-            <h2 className="text-xl font-display font-bold text-foreground">Professional</h2>
-          </div>
-          {professionalFields.map((f) => (
-            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
-          ))}
-        </div>
 
         <div className="bg-card border border-border rounded-xl p-6 hover-glow">
           <div className="flex items-center gap-3 mb-4">
