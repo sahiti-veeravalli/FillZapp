@@ -13,7 +13,7 @@ const BackgroundParticles = () => {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    const AMBIENT_COUNT = 300;
+    const AMBIENT_COUNT = 500;
 
     const particles = Array.from({ length: AMBIENT_COUNT }, () => {
       const x = Math.random() * width;

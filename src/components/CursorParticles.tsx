@@ -31,7 +31,7 @@ const CursorParticles = () => {
     let height = (canvas.height = window.innerHeight);
 
     const particles: Particle[] = [];
-    const AMBIENT_COUNT = 140;
+    const AMBIENT_COUNT = 250;
     const REPEL_RADIUS = 200;
     const REPEL_FORCE = 10;
     const RETURN_FORCE = 0.008;
