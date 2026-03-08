@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, ChevronLeft, Tag, IdCard, CreditCard, MapPin, Globe, Target } from "lucide-react";
+import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, ChevronLeft, Tag, IdCard, CreditCard, MapPin, Globe, Target, Bookmark } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { type CustomField } from "@/components/dashboard/CustomFields";
@@ -23,6 +23,7 @@ const menuItems = [
   { id: "social-profiles", label: "Social Profiles", icon: Globe },
   
   { id: "custom-fields", label: "Custom Fields", icon: PlusCircle },
+  { id: "bookmarklet", label: "Auto-Fill Tool", icon: Bookmark },
   { id: "settings", label: "Settings", icon: Settings },
 ];
 

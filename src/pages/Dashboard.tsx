@@ -11,6 +11,7 @@ import GovernmentIDsSection from "@/components/dashboard/GovernmentIDsSection";
 import FinancialSection from "@/components/dashboard/FinancialSection";
 import SocialProfilesSection from "@/components/dashboard/SocialProfilesSection";
 import CustomFields from "@/components/dashboard/CustomFields";
+import BookmarkletSection from "@/components/dashboard/BookmarkletSection";
 
 import SettingsSection from "@/components/dashboard/SettingsSection";
 import DashboardSearch, { type SearchResult } from "@/components/dashboard/DashboardSearch";
@@ -60,6 +61,7 @@ const Dashboard = () => {
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />
           )}
+          {activeTab === "bookmarklet" && <BookmarkletSection />}
           {activeTab === "settings" && <SettingsSection />}
         </main>
       </div>
