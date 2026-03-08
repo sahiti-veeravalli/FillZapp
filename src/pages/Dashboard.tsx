@@ -5,6 +5,7 @@ import ProfileOverview from "@/components/dashboard/ProfileOverview";
 import ProfessionalSection from "@/components/dashboard/ProfessionalSection";
 import EducationSection from "@/components/dashboard/EducationSection";
 import CustomFields from "@/components/dashboard/CustomFields";
+import DocumentsSection from "@/components/dashboard/DocumentsSection";
 import { type CustomField } from "@/components/dashboard/CustomFields";
 
 const Dashboard = () => {
@@ -32,12 +33,7 @@ const Dashboard = () => {
           {activeTab === "professional" && <ProfessionalSection />}
           {activeTab === "education" && <EducationSection />}
 
-          {activeTab === "documents" && (
-            <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Documents</h2>
-              <p className="text-muted-foreground">Upload resumes, memos, and ID proofs here.</p>
-            </div>
-          )}
+          {activeTab === "documents" && <DocumentsSection />}
 
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />
