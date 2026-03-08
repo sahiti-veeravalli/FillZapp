@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Bell, Search, PanelLeft, Sun, Moon, LogOut, User } from "lucide-react";
+import { Search, PanelLeft, Sun, Moon, LogOut, User, Home } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
