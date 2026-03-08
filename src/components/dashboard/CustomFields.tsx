@@ -53,18 +53,16 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
   };
 
   const handleAdd = () => {
-    if (!fieldName.trim() || !fieldValue.trim()) {
-      toast({ title: "Missing info", description: "Both field name and value are required.", variant: "destructive" });
+    if (!fieldName.trim()) {
+      toast({ title: "Missing info", description: "Field name is required.", variant: "destructive" });
       return;
     }
     const newField: CustomField = {
       id: Date.now().toString(),
       name: fieldName.trim(),
-      value: fieldValue.trim(),
     };
     saveFields([...fields, newField]);
     setFieldName("");
-    setFieldValue("");
     toast({ title: "Added", description: `"${newField.name}" field added.` });
   };
 
