@@ -23,6 +23,7 @@ const menuItems = [
   { id: "social-profiles", label: "Social Profiles", icon: Globe },
   
   { id: "custom-fields", label: "Custom Fields", icon: PlusCircle },
+  { id: "bookmarklet", label: "Auto-Fill Tool", icon: Bookmark },
   { id: "settings", label: "Settings", icon: Settings },
 ];
 

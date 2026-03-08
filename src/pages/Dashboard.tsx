@@ -61,6 +61,7 @@ const Dashboard = () => {
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />
           )}
+          {activeTab === "bookmarklet" && <BookmarkletSection />}
           {activeTab === "settings" && <SettingsSection />}
         </main>
       </div>
