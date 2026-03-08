@@ -2,11 +2,14 @@ import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProfileOverview from "@/components/dashboard/ProfileOverview";
+import CustomFields from "@/components/dashboard/CustomFields";
+import { type CustomField } from "@/components/dashboard/CustomFields";
 import { PanelLeft } from "lucide-react";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [customFields, setCustomFields] = useState<CustomField[]>([]);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -15,6 +18,7 @@ const Dashboard = () => {
           activeTab={activeTab}
           onTabChange={setActiveTab}
           onClose={() => setSidebarOpen(false)}
+          customFields={customFields}
         />
       )}
       <div className="flex-1 flex flex-col">
@@ -47,10 +51,7 @@ const Dashboard = () => {
           )}
 
           {activeTab === "custom-fields" && (
-            <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Custom Fields</h2>
-              <p className="text-muted-foreground">Add custom autofill fields coming soon.</p>
-            </div>
+            <CustomFields onFieldsChange={setCustomFields} />
           )}
 
           {activeTab === "settings" && (

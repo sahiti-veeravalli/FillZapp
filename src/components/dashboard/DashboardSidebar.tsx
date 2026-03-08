@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils";
-import { User, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose } from "lucide-react";
+import { User, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { type CustomField } from "@/components/dashboard/CustomFields";
 
 interface DashboardSidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onClose: () => void;
+  customFields?: CustomField[];
 }
 
 const menuItems = [
@@ -18,7 +20,7 @@ const menuItems = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const DashboardSidebar = ({ activeTab, onTabChange, onClose }: DashboardSidebarProps) => {
+const DashboardSidebar = ({ activeTab, onTabChange, onClose, customFields = [] }: DashboardSidebarProps) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -36,7 +38,7 @@ const DashboardSidebar = ({ activeTab, onTabChange, onClose }: DashboardSidebarP
         <span className="font-display text-xl font-bold text-sidebar-foreground">Fillzapp</span>
       </div>
 
-      <nav className="flex-1 px-3 mt-2">
+      <nav className="flex-1 px-3 mt-2 overflow-y-auto">
         {menuItems.map((item) => (
           <button
             key={item.id}
@@ -52,6 +54,26 @@ const DashboardSidebar = ({ activeTab, onTabChange, onClose }: DashboardSidebarP
             {item.label}
           </button>
         ))}
+
+        {/* Dynamic custom fields */}
+        {customFields.length > 0 && (
+          <div className="mt-4 pt-3 border-t border-sidebar-border">
+            <p className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Custom</p>
+            {customFields.map((field) => (
+              <button
+                key={field.id}
+                onClick={() => onTabChange("custom-fields")}
+                className={cn(
+                  "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors mb-0.5",
+                  "text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                )}
+              >
+                <Tag className="w-3.5 h-3.5" />
+                <span className="truncate">{field.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </nav>
 
       <div className="px-3 pb-4 space-y-1">
