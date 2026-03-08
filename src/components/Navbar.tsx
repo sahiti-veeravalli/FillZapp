@@ -30,6 +30,12 @@ const Navbar = ({ currentSection, onNavigate }: NavbarProps) => (
         >
           Features
         </button>
+        <button
+          onClick={() => onNavigate(3)}
+          className={`transition-colors ${currentSection === 3 ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          Contact
+        </button>
       </div>
 
       <div className="flex items-center gap-3">
