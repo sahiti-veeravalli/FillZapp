@@ -13,11 +13,6 @@ const defaultPersonal = [
   { key: "address", label: "Address" },
   { key: "dateOfBirth", label: "Date of Birth" },
 ];
-const defaultProfessional = [
-  { key: "linkedin", label: "LinkedIn" },
-  { key: "github", label: "GitHub" },
-  { key: "portfolio", label: "Portfolio" },
-];
 const defaultEducation = [
   { key: "university", label: "University" },
   { key: "degree", label: "Degree" },
