@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Zap, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
@@ -94,7 +94,8 @@ const PasswordInput = ({
 };
 
 const Login = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [isSignUp, setIsSignUp] = useState(searchParams.get("mode") === "signup");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
