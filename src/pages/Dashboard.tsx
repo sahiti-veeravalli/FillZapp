@@ -2,6 +2,7 @@ import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProfileOverview from "@/components/dashboard/ProfileOverview";
+import PersonalInfoSection from "@/components/dashboard/PersonalInfoSection";
 import ProfessionalSection from "@/components/dashboard/ProfessionalSection";
 import EducationSection from "@/components/dashboard/EducationSection";
 import CustomFields from "@/components/dashboard/CustomFields";
