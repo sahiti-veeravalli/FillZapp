@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 interface DashboardHeaderProps {
   sidebarOpen: boolean;
   onToggleSidebar: () => void;
+  onSearchOpen: () => void;
 }
 
 const DashboardHeader = ({ sidebarOpen, onToggleSidebar }: DashboardHeaderProps) => {
