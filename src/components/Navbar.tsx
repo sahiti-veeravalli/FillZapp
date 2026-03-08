@@ -20,6 +20,7 @@ const Navbar = () => {
         <div className="hidden sm:flex items-center gap-8 text-sm font-medium text-muted-foreground">
           <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
           <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+          <a href="#use-cases" className="hover:text-foreground transition-colors">Use Cases</a>
         </div>
 
         <div className="flex items-center gap-3">
