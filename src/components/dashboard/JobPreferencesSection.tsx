@@ -37,7 +37,7 @@ const groups: FieldGroup[] = [
   },
 ];
 
-const JobPreferencesSection = () => (
+const JobPreferencesSection = ({ highlightField }: { highlightField?: string | null }) => (
   <EditableSection
     title="Job Preferences"
     subtitle="Career preferences and skills for job portal applications."
@@ -45,6 +45,7 @@ const JobPreferencesSection = () => (
     firestoreKey="jobPreferences"
     defaultFields={defaultFields}
     groups={groups}
+    highlightField={highlightField}
   />
 );
 

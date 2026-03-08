@@ -37,7 +37,7 @@ const groups: FieldGroup[] = [
   },
 ];
 
-const FinancialSection = () => (
+const FinancialSection = ({ highlightField }: { highlightField?: string | null }) => (
   <EditableSection
     title="Financial & Payments"
     subtitle="Card and bank details for shopping, billing, and payment forms."
@@ -45,6 +45,7 @@ const FinancialSection = () => (
     firestoreKey="financial"
     defaultFields={defaultFields}
     groups={groups}
+    highlightField={highlightField}
   />
 );
 

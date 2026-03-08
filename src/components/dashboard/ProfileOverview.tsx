@@ -129,7 +129,7 @@ const ProfileOverview = ({ highlightField }: { highlightField?: string | null })
             <h2 className="text-xl font-display font-bold text-foreground">Education</h2>
           </div>
           {educationFields.map((f) => (
-            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
+            <ReadOnlyField key={f.key} fieldKey={f.key} label={f.label} value={data[f.key] || ""} highlighted={highlightField === f.key} />
           ))}
         </div>
       </div>
