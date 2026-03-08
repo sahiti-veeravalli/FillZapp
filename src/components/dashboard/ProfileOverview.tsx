@@ -68,7 +68,7 @@ const ProfileOverview = () => {
   }
 
   const personalFields = defaultPersonal;
-  const professionalFields = getFields(defaultProfessional, "professional");
+  
   const educationFields = getFields(defaultEducation, "education");
 
   return (
