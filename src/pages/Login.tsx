@@ -96,6 +96,8 @@ const PasswordInput = ({
 };
 
 const Login = () => {
+  const { signUp, signIn } = useAuth();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isSignUp, setIsSignUp] = useState(searchParams.get("mode") === "signup");
   const [fullName, setFullName] = useState("");
