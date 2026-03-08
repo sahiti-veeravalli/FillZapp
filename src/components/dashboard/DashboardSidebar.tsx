@@ -1,11 +1,12 @@
 import { cn } from "@/lib/utils";
-import { User, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut } from "lucide-react";
+import { User, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 interface DashboardSidebarProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onClose: () => void;
 }
 
 const menuItems = [
@@ -17,13 +18,13 @@ const menuItems = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const DashboardSidebar = ({ activeTab, onTabChange }: DashboardSidebarProps) => {
+const DashboardSidebar = ({ activeTab, onTabChange, onClose }: DashboardSidebarProps) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -53,13 +54,21 @@ const DashboardSidebar = ({ activeTab, onTabChange }: DashboardSidebarProps) => 
         ))}
       </nav>
 
-      <div className="px-3 pb-6">
+      <div className="px-3 pb-4 space-y-1">
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
         >
           <LogOut className="w-4 h-4" />
           Log out
+        </button>
+
+        <button
+          onClick={onClose}
+          className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors border-t border-border pt-3 mt-2"
+        >
+          <PanelLeftClose className="w-4 h-4" />
+          <span>Close sidebar</span>
         </button>
       </div>
     </aside>
