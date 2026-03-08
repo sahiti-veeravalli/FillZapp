@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FillZapp</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 320px;
+      min-height: 200px;
+      background: #0a0a0f;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .header {
+      background: linear-gradient(135deg, rgba(0,229,192,0.1), transparent);
+      border-bottom: 1px solid rgba(0,229,192,0.15);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header svg { color: #00e5c0; }
+    .header h1 { font-size: 16px; font-weight: 700; }
+    .header span { color: #00e5c0; }
+
+    .content { padding: 20px; }
+
+    /* Login Form */
+    .login-form { display: flex; flex-direction: column; gap: 12px; }
+    .login-form label { font-size: 12px; color: #888; font-weight: 500; }
+    .login-form input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .login-form input:focus { border-color: #00e5c0; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(135deg, #00e5c0, #00b896);
+      color: #0a0a0f;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error-msg {
+      font-size: 12px;
+      color: #ff4444;
+      text-align: center;
+      display: none;
+    }
+
+    /* Logged In State */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 16px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00e5c0, #00b896);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0a0a0f;
+    }
+
+    .user-name { font-size: 14px; font-weight: 600; }
+    .user-email { font-size: 12px; color: #888; }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .setting-label { font-size: 13px; color: #ccc; }
+
+    /* Toggle Switch */
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle .slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.1);
+      border-radius: 22px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .toggle .slider::before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      bottom: 3px;
+      background: #888;
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+    .toggle input:checked + .slider { background: rgba(0,229,192,0.3); }
+    .toggle input:checked + .slider::before { transform: translateX(18px); background: #00e5c0; }
+
+    .btn-logout {
+      width: 100%;
+      padding: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,60,60,0.3);
+      color: #ff4444;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,60,60,0.1); }
+
+    .btn-dashboard {
+      width: 100%;
+      padding: 8px;
+      background: rgba(0,229,192,0.1);
+      border: 1px solid rgba(0,229,192,0.2);
+      color: #00e5c0;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+    .btn-dashboard:hover { background: rgba(0,229,192,0.15); }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    <h1>Fill<span>Zapp</span></h1>
+  </div>
+
+  <!-- Login View -->
+  <div class="content" id="login-view">
+    <div class="login-form">
+      <div>
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@example.com" />
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" id="password" placeholder="••••••••" />
+      </div>
+      <p class="error-msg" id="error-msg"></p>
+      <button class="btn-primary" id="login-btn">Sign In</button>
+    </div>
+  </div>
+
+  <!-- Logged In View -->
+  <div class="content hidden" id="loggedin-view">
+    <div class="user-info">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <div>
+        <div class="user-name" id="user-name">—</div>
+        <div class="user-email" id="user-email">—</div>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <span class="setting-label">Auto-fill forms</span>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-autofill" checked />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="setting-row">
+      <span class="setting-label">Confirm before filling</span>
+      <label class="toggle">
+        <input type="checkbox" id="toggle-confirm" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button class="btn-dashboard" id="btn-dashboard">Open Dashboard</button>
+    <button class="btn-logout" id="btn-logout">Log Out</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
