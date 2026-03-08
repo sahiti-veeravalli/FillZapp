@@ -9,15 +9,10 @@ interface FieldItem { key: string; label: string; isCustom?: boolean; }
 const defaultPersonal = [
   { key: "fullName", label: "Full Name" },
   { key: "email", label: "Email" },
-  { key: "phone", label: "Phone" },
-  { key: "address", label: "Address" },
-  { key: "dateOfBirth", label: "Date of Birth" },
 ];
 const defaultEducation = [
   { key: "university", label: "University" },
   { key: "degree", label: "Degree" },
-  { key: "graduationYear", label: "Graduation Year" },
-  { key: "gpa", label: "GPA" },
 ];
 
 const stats = [
