@@ -15,7 +15,7 @@ interface Particle {
 
 const CursorParticles = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const mouseRef = useRef({ x: -1000, y: -1000, prevX: -1000, prevY: -1000 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,17 +28,16 @@ const CursorParticles = () => {
     let height = (canvas.height = window.innerHeight);
 
     const particles: Particle[] = [];
-    const AMBIENT_COUNT = 60;
+    const AMBIENT_COUNT = 80;
 
-    // Create ambient particles
     for (let i = 0; i < AMBIENT_COUNT; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
         size: Math.random() * 3 + 0.5,
-        baseOpacity: Math.random() * 0.12 + 0.03,
+        baseOpacity: Math.random() * 0.15 + 0.03,
         opacity: 0,
         life: 0,
         maxLife: Infinity,
@@ -46,22 +45,28 @@ const CursorParticles = () => {
       });
     }
 
-    let trailTimer = 0;
+    let frameCount = 0;
 
     const spawnTrail = () => {
-      const { x, y } = mouseRef.current;
+      const { x, y, prevX, prevY } = mouseRef.current;
       if (x < 0) return;
-      for (let i = 0; i < 2; i++) {
+
+      const speed = Math.sqrt((x - prevX) ** 2 + (y - prevY) ** 2);
+      const count = Math.min(Math.floor(speed / 3) + 1, 6);
+
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const spread = Math.random() * 25;
         particles.push({
-          x: x + (Math.random() - 0.5) * 20,
-          y: y + (Math.random() - 0.5) * 20,
-          vx: (Math.random() - 0.5) * 1.5,
-          vy: (Math.random() - 0.5) * 1.5 - 0.5,
-          size: Math.random() * 4 + 1,
-          baseOpacity: 0.4,
-          opacity: 0.4,
+          x: x + Math.cos(angle) * spread,
+          y: y + Math.sin(angle) * spread,
+          vx: (Math.random() - 0.5) * 2 + (x - prevX) * 0.05,
+          vy: (Math.random() - 0.5) * 2 + (y - prevY) * 0.05 - 0.3,
+          size: Math.random() * 4 + 1.5,
+          baseOpacity: 0.35 + Math.random() * 0.2,
+          opacity: 0.5,
           life: 0,
-          maxLife: 60 + Math.random() * 40,
+          maxLife: 50 + Math.random() * 50,
           type: "trail",
         });
       }
@@ -71,88 +76,96 @@ const CursorParticles = () => {
       ctx.clearRect(0, 0, width, height);
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
+      frameCount++;
 
-      // Spawn trail particles
-      trailTimer++;
-      if (trailTimer % 2 === 0) spawnTrail();
+      if (frameCount % 2 === 0) spawnTrail();
 
-      // Draw cursor glow
+      // Cursor glow
       if (mx > 0) {
-        const grad = ctx.createRadialGradient(mx, my, 0, mx, my, 200);
-        grad.addColorStop(0, "hsla(168, 80%, 42%, 0.07)");
-        grad.addColorStop(0.5, "hsla(168, 80%, 42%, 0.02)");
+        const grad = ctx.createRadialGradient(mx, my, 0, mx, my, 220);
+        grad.addColorStop(0, "hsla(168, 80%, 50%, 0.09)");
+        grad.addColorStop(0.4, "hsla(168, 80%, 45%, 0.04)");
         grad.addColorStop(1, "hsla(168, 80%, 42%, 0)");
         ctx.fillStyle = grad;
-        ctx.fillRect(mx - 200, my - 200, 400, 400);
+        ctx.beginPath();
+        ctx.arc(mx, my, 220, 0, Math.PI * 2);
+        ctx.fill();
       }
 
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
-
-        // Update
         p.x += p.vx;
         p.y += p.vy;
         p.life++;
 
         if (p.type === "trail") {
-          p.opacity = p.baseOpacity * (1 - p.life / p.maxLife);
-          p.size *= 0.98;
-          if (p.life >= p.maxLife || p.opacity <= 0.01) {
+          const progress = p.life / p.maxLife;
+          p.opacity = p.baseOpacity * (1 - progress * progress);
+          p.size *= 0.985;
+          p.vx *= 0.97;
+          p.vy *= 0.97;
+          if (p.life >= p.maxLife || p.opacity <= 0.005) {
             particles.splice(i, 1);
             continue;
           }
         } else {
-          // Ambient: wrap around
           if (p.x < 0) p.x = width;
           if (p.x > width) p.x = 0;
           if (p.y < 0) p.y = height;
           if (p.y > height) p.y = 0;
 
-          // Brighten near cursor
           if (mx > 0) {
             const dx = p.x - mx;
             const dy = p.y - my;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const proximity = Math.max(0, 1 - dist / 250);
-            p.opacity = p.baseOpacity + proximity * 0.3;
-            // Gently push away from cursor
-            if (dist < 200 && dist > 0) {
-              p.vx += (dx / dist) * 0.02;
-              p.vy += (dy / dist) * 0.02;
+            const proximity = Math.max(0, 1 - dist / 280);
+            p.opacity = p.baseOpacity + proximity * 0.4;
+            p.size += proximity * 0.02;
+            if (dist < 220 && dist > 0) {
+              p.vx += (dx / dist) * 0.03;
+              p.vy += (dy / dist) * 0.03;
             }
           } else {
             p.opacity = p.baseOpacity;
           }
 
-          // Dampen velocity
-          p.vx *= 0.999;
-          p.vy *= 0.999;
+          p.vx *= 0.998;
+          p.vy *= 0.998;
+          // Clamp ambient size
+          if (p.size > 4) p.size = 4;
         }
 
-        // Draw particle
+        // Draw
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(168, 80%, 50%, ${p.opacity})`;
+        ctx.arc(p.x, p.y, Math.max(0.5, p.size), 0, Math.PI * 2);
+        if (p.type === "trail" && p.opacity > 0.1) {
+          // Trail particles get a soft glow
+          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.5);
+          g.addColorStop(0, `hsla(168, 80%, 55%, ${p.opacity})`);
+          g.addColorStop(1, `hsla(168, 80%, 50%, 0)`);
+          ctx.fillStyle = g;
+          ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+        } else {
+          ctx.fillStyle = `hsla(168, 80%, 50%, ${p.opacity})`;
+        }
         ctx.fill();
       }
 
-      // Draw connecting lines between nearby ambient particles
+      // Connect ambient particles
       const ambients = particles.filter((p) => p.type === "ambient");
       for (let i = 0; i < ambients.length; i++) {
         for (let j = i + 1; j < ambients.length; j++) {
           const dx = ambients[i].x - ambients[j].x;
           const dy = ambients[i].y - ambients[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          if (dist < 130) {
             const lineOpacity =
-              0.06 *
-              (1 - dist / 120) *
-              (1 + (ambients[i].opacity + ambients[j].opacity));
+              0.06 * (1 - dist / 130) * (1 + ambients[i].opacity + ambients[j].opacity);
             ctx.beginPath();
             ctx.moveTo(ambients[i].x, ambients[i].y);
             ctx.lineTo(ambients[j].x, ambients[j].y);
             ctx.strokeStyle = `hsla(168, 80%, 50%, ${lineOpacity})`;
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.6;
             ctx.stroke();
           }
         }
@@ -164,10 +177,13 @@ const CursorParticles = () => {
     draw();
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      mouseRef.current.prevX = mouseRef.current.x;
+      mouseRef.current.prevY = mouseRef.current.y;
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
     };
     const handleMouseLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000 };
+      mouseRef.current = { x: -1000, y: -1000, prevX: -1000, prevY: -1000 };
     };
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
@@ -187,10 +203,7 @@ const CursorParticles = () => {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-    />
+    <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />
   );
 };
 
