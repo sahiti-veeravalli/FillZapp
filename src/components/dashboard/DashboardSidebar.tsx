@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, ChevronLeft, Tag, IdCard, CreditCard, MapPin, Globe, Target } from "lucide-react";
+import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, LogOut, ChevronLeft, Tag, IdCard, CreditCard, MapPin, Globe, Target } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { type CustomField } from "@/components/dashboard/CustomFields";
@@ -41,7 +42,7 @@ const DashboardSidebar = ({ activeTab, onTabChange, onClose, customFields = [] }
       <div className="p-5 flex items-center justify-between">
         <button onClick={() => navigate("/")} className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
           <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center group-hover:shadow-[0_0_15px_hsl(var(--primary)/0.4)] transition-shadow duration-300">
-            <Zap className="w-5 h-5 text-primary" />
+            <img src={logoImg} alt="FillZapp" className="w-6 h-6" />
           </div>
           <span className="font-display text-xl font-bold text-sidebar-foreground">FillZapp</span>
         </button>
