@@ -2,6 +2,7 @@ import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProfileOverview from "@/components/dashboard/ProfileOverview";
+import PersonalInfoSection from "@/components/dashboard/PersonalInfoSection";
 import ProfessionalSection from "@/components/dashboard/ProfessionalSection";
 import EducationSection from "@/components/dashboard/EducationSection";
 import CustomFields from "@/components/dashboard/CustomFields";
@@ -30,6 +31,7 @@ const Dashboard = () => {
         />
         <main className="flex-1 p-6 overflow-auto">
           {activeTab === "overview" && <ProfileOverview />}
+          {activeTab === "personal" && <PersonalInfoSection />}
           {activeTab === "professional" && <ProfessionalSection />}
           {activeTab === "education" && <EducationSection />}
 
