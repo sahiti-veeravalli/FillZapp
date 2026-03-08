@@ -93,7 +93,7 @@ const ProfileOverview = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card border border-border rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6 hover-glow">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <User className="w-5 h-5 text-primary" />
