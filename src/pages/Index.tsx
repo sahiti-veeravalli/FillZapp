@@ -6,7 +6,7 @@ import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
 import Footer from "@/components/Footer";
 
-const sections = ["hero", "how", "features", "footer"] as const;
+const sections = ["hero", "how", "features", "contact"] as const;
 
 const Index = () => {
   const [current, setCurrent] = useState(0);
@@ -137,10 +137,8 @@ const Index = () => {
         <div className="h-screen flex items-center justify-center overflow-y-auto">
           <FeaturesSection />
         </div>
-        <div className="h-screen flex items-end">
-          <div className="w-full">
-            <Footer />
-          </div>
+        <div className="h-screen">
+          <Footer />
         </div>
       </div>
     </div>
