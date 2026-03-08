@@ -11,10 +11,10 @@ const Footer = () => (
         <p className="text-muted-foreground text-sm">© 2026 FillZapp. All rights reserved.</p>
       </div>
       <div className="pt-4 border-t border-border w-full flex justify-center">
-        <p style={{ fontFamily: "'Playfair Display', serif" }} className="text-base sm:text-lg italic tracking-wide">
+        <p className="text-base sm:text-lg tracking-wide text-muted-foreground">
           developed by{" "}
-          <span className="text-primary font-bold not-italic">Sahiti</span>{" "}
-          <span className="text-foreground font-bold not-italic">Veeravalli</span>
+          <span style={{ fontFamily: "'Playfair Display', serif" }} className="text-primary font-bold italic text-xl sm:text-2xl">Sahiti</span>{" "}
+          <span style={{ fontFamily: "'Playfair Display', serif" }} className="text-foreground font-bold italic text-xl sm:text-2xl">Veeravalli</span>
         </p>
       </div>
     </div>
