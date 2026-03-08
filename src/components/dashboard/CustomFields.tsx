@@ -111,10 +111,7 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
               key={f.id}
               className="bg-card border border-border rounded-xl p-4 flex items-center justify-between"
             >
-              <div>
-                <p className="text-sm font-medium text-foreground">{f.name}</p>
-                <p className="text-sm text-muted-foreground">{f.value}</p>
-              </div>
+              <p className="text-sm font-medium text-foreground">{f.name}</p>
               <button
                 onClick={() => handleDelete(f.id)}
                 className="p-2 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
