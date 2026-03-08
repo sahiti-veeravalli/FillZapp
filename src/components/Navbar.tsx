@@ -16,7 +16,7 @@ const Navbar = () => (
 
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="sm" className="font-medium">Log in</Button>
-        <Button size="sm" className="font-display font-semibold rounded-full px-5">Try for free</Button>
+        <Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Try for free</Button>
       </div>
     </div>
   </nav>
