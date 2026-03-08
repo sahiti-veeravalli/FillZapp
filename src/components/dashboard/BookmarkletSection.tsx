@@ -198,25 +198,39 @@ const BookmarkletSection = () => {
           {/* Primary: Copy & manual install */}
           {bookmarkletUrl ? (
             <div className="space-y-4">
+              {/* Method 1: Drag to bookmarks bar */}
               <div className="flex flex-col items-center gap-4 py-6 px-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5">
-                <p className="text-sm font-medium text-foreground">Step 1: Copy the bookmarklet code</p>
-                <Button
-                  onClick={handleCopy}
-                  size="lg"
-                  className="gap-2 shadow-[0_0_20px_hsl(var(--primary)/0.3)]"
+                <p className="text-sm font-medium text-foreground">Method 1: Drag this to your bookmarks bar</p>
+                <a
+                  href={bookmarkletUrl}
+                  onClick={(e) => e.preventDefault()}
+                  draggable
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-shadow cursor-grab active:cursor-grabbing select-none"
                 >
-                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  {copied ? "Copied!" : "Copy FillZapp Bookmarklet"}
-                </Button>
+                  <Zap className="w-4 h-4" />
+                  ⚡ FillZapp
+                </a>
+                <p className="text-xs text-muted-foreground">
+                  (Works when visiting the site directly — not inside Lovable preview)
+                </p>
               </div>
 
-              <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-2">
-                <p className="text-sm font-medium text-foreground">Step 2: Add to bookmarks bar</p>
+              {/* Method 2: Copy + manual install */}
+              <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-3">
+                <p className="text-sm font-medium text-foreground">Method 2: Copy &amp; add manually</p>
+                <Button
+                  onClick={handleCopy}
+                  size="sm"
+                  variant="outline"
+                  className="gap-2"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  {copied ? "Copied!" : "Copy Bookmarklet Code"}
+                </Button>
                 <ol className="text-sm text-muted-foreground space-y-1.5 list-decimal list-inside">
-                  <li>Show bookmarks bar: <kbd className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">Ctrl+Shift+B</kbd> (or <kbd className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">⌘+Shift+B</kbd> on Mac)</li>
-                  <li>Right-click on the bookmarks bar → <strong className="text-foreground">"Add page"</strong> or <strong className="text-foreground">"Add bookmark"</strong></li>
-                  <li>Set name as <strong className="text-foreground">⚡ FillZapp</strong></li>
-                  <li>Paste the copied code as the <strong className="text-foreground">URL</strong></li>
+                  <li>Open <strong className="text-foreground">chrome://bookmarks</strong> in a new tab</li>
+                  <li>Click <strong className="text-foreground">⋮ → Add new bookmark</strong></li>
+                  <li>Name: <strong className="text-foreground">⚡ FillZapp</strong> — URL: paste the copied code</li>
                   <li>Click <strong className="text-foreground">Save</strong></li>
                 </ol>
               </div>
