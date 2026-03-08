@@ -2,16 +2,19 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Pencil, PlusCircle, Trash2 } from "lucide-react";
+import { Pencil, PlusCircle, Trash2, Eye, EyeOff, KeyRound } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { type LucideIcon } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface FieldItem {
   key: string;
   label: string;
   isCustom?: boolean;
+  isPassword?: boolean;
+  notes?: string;
 }
 
 export interface FieldGroup {
@@ -38,6 +41,8 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
   const [editing, setEditing] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [newFieldName, setNewFieldName] = useState("");
+  const [newFieldNotes, setNewFieldNotes] = useState("");
+  const [newFieldIsPassword, setNewFieldIsPassword] = useState(false);
   const [showAddField, setShowAddField] = useState(false);
 
   useEffect(() => {
@@ -76,12 +81,20 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
   const addField = async () => {
     if (!newFieldName.trim()) return;
     const key = `${firestoreKey}_custom_${Date.now()}`;
-    const newField: FieldItem = { key, label: newFieldName.trim(), isCustom: true };
+    const newField: FieldItem = {
+      key,
+      label: newFieldName.trim(),
+      isCustom: true,
+      isPassword: newFieldIsPassword,
+      notes: newFieldNotes.trim() || undefined,
+    };
     const updatedFields = [...fields, newField];
     const customFields = updatedFields.filter((f) => f.isCustom);
     setFields(updatedFields);
     setData({ ...data, [key]: "" });
     setNewFieldName("");
+    setNewFieldNotes("");
+    setNewFieldIsPassword(false);
     setShowAddField(false);
     if (!user) return;
     try {
@@ -114,9 +127,20 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
   // Get custom fields (not in any group)
   const customFields = fields.filter((f) => f.isCustom);
 
+  const addFieldProps = {
+    showAddField,
+    newFieldName,
+    setNewFieldName,
+    newFieldNotes,
+    setNewFieldNotes,
+    newFieldIsPassword,
+    setNewFieldIsPassword,
+    setShowAddField,
+    addField,
+  };
+
   // If groups are provided, render multi-column layout
   if (groups && groups.length > 0) {
-    // Determine grid columns based on group count
     const gridCols = groups.length === 2 ? "lg:grid-cols-2" : groups.length >= 3 ? "lg:grid-cols-3" : "";
 
     return (
@@ -144,6 +168,8 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
                     value={data[f.key] || ""}
                     isEditing={isEditing}
                     isCustom={f.isCustom}
+                    isPassword={f.isPassword}
+                    notes={f.notes}
                     onEdit={() => setEditing(f.key)}
                     onSave={(v) => saveValue(f.key, v)}
                     onDelete={() => deleteField(f)}
@@ -168,6 +194,8 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
                     value={data[f.key] || ""}
                     isEditing={isEditing}
                     isCustom={f.isCustom}
+                    isPassword={f.isPassword}
+                    notes={f.notes}
                     onEdit={() => setEditing(f.key)}
                     onSave={(v) => saveValue(f.key, v)}
                     onDelete={() => deleteField(f)}
@@ -178,19 +206,12 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
           </div>
         )}
 
-        {/* Add information */}
-        <AddFieldRow
-          showAddField={showAddField}
-          newFieldName={newFieldName}
-          setNewFieldName={setNewFieldName}
-          setShowAddField={setShowAddField}
-          addField={addField}
-        />
+        <AddFieldRow {...addFieldProps} />
       </div>
     );
   }
 
-  // Fallback: single-column layout (for sections with few fields)
+  // Fallback: single-column layout
   return (
     <div className="space-y-6">
       <div>
@@ -215,6 +236,8 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
                 value={data[f.key] || ""}
                 isEditing={isEditing}
                 isCustom={f.isCustom}
+                isPassword={f.isPassword}
+                notes={f.notes}
                 onEdit={() => setEditing(f.key)}
                 onSave={(v) => saveValue(f.key, v)}
                 onDelete={() => deleteField(f)}
@@ -223,38 +246,55 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
           })}
         </div>
 
-        <AddFieldRow
-          showAddField={showAddField}
-          newFieldName={newFieldName}
-          setNewFieldName={setNewFieldName}
-          setShowAddField={setShowAddField}
-          addField={addField}
-        />
+        <AddFieldRow {...addFieldProps} />
       </div>
     </div>
   );
 };
 
-const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, setShowAddField, addField }: {
-  showAddField: boolean; newFieldName: string;
-  setNewFieldName: (v: string) => void; setShowAddField: (v: boolean) => void; addField: () => void;
+const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNotes, setNewFieldNotes, newFieldIsPassword, setNewFieldIsPassword, setShowAddField, addField }: {
+  showAddField: boolean; newFieldName: string; newFieldNotes: string; newFieldIsPassword: boolean;
+  setNewFieldName: (v: string) => void; setNewFieldNotes: (v: string) => void;
+  setNewFieldIsPassword: (v: boolean) => void; setShowAddField: (v: boolean) => void; addField: () => void;
 }) => (
   showAddField ? (
-    <div className="flex items-center gap-3 pt-4 mt-2 border-t border-border">
+    <div className="bg-card border border-border rounded-xl p-5 space-y-4">
+      <h3 className="text-sm font-display font-bold text-foreground">Add New Information</h3>
+      <div className="flex items-center gap-3">
+        <Input
+          value={newFieldName}
+          onChange={(e) => setNewFieldName(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && addField()}
+          placeholder="Field name (e.g. Netflix Password, API Key)"
+          autoFocus
+          className="h-9 text-sm flex-1"
+        />
+      </div>
       <Input
-        value={newFieldName}
-        onChange={(e) => setNewFieldName(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && addField()}
-        placeholder="e.g. Skills, Certifications"
-        autoFocus
-        className="h-8 text-sm flex-1"
+        value={newFieldNotes}
+        onChange={(e) => setNewFieldNotes(e.target.value)}
+        placeholder="Extra info / notes (optional)"
+        className="h-9 text-sm"
       />
-      <Button size="sm" onClick={addField} className="gap-1.5">
-        <PlusCircle className="w-3.5 h-3.5" /> Add
-      </Button>
-      <Button size="sm" variant="ghost" onClick={() => { setShowAddField(false); setNewFieldName(""); }}>
-        Cancel
-      </Button>
+      <div className="flex items-center gap-2">
+        <Checkbox
+          id="isPassword"
+          checked={newFieldIsPassword}
+          onCheckedChange={(checked) => setNewFieldIsPassword(checked === true)}
+        />
+        <label htmlFor="isPassword" className="text-sm text-muted-foreground flex items-center gap-1.5 cursor-pointer">
+          <KeyRound className="w-3.5 h-3.5" />
+          This is a password / secret
+        </label>
+      </div>
+      <div className="flex items-center gap-2">
+        <Button size="sm" onClick={addField} className="gap-1.5">
+          <PlusCircle className="w-3.5 h-3.5" /> Add
+        </Button>
+        <Button size="sm" variant="ghost" onClick={() => { setShowAddField(false); setNewFieldName(""); setNewFieldNotes(""); setNewFieldIsPassword(false); }}>
+          Cancel
+        </Button>
+      </div>
     </div>
   ) : (
     <button
@@ -267,26 +307,42 @@ const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, setShowAddFi
   )
 );
 
-const EditableField = ({ label, value, isEditing, isCustom, onEdit, onSave, onDelete }: {
-  label: string; value: string; isEditing: boolean; isCustom?: boolean;
+const EditableField = ({ label, value, isEditing, isCustom, isPassword, notes, onEdit, onSave, onDelete }: {
+  label: string; value: string; isEditing: boolean; isCustom?: boolean; isPassword?: boolean; notes?: string;
   onEdit: () => void; onSave: (v: string) => void; onDelete: () => void;
 }) => {
   const [temp, setTemp] = useState(value);
+  const [visible, setVisible] = useState(false);
   useEffect(() => { setTemp(value); }, [value]);
+
+  const maskedValue = value ? "••••••••" : "—";
 
   return (
     <div className="flex items-center justify-between py-3 border-b border-border last:border-b-0">
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-muted-foreground mb-1">{label}</p>
+        <div className="flex items-center gap-1.5 mb-1">
+          <p className="text-xs font-medium text-muted-foreground">{label}</p>
+          {isPassword && <KeyRound className="w-3 h-3 text-muted-foreground/60" />}
+        </div>
+        {notes && <p className="text-[11px] text-muted-foreground/50 mb-1">{notes}</p>}
         {isEditing ? (
           <Input value={temp} onChange={(e) => setTemp(e.target.value)}
+            type={isPassword && !visible ? "password" : "text"}
             onBlur={() => onSave(temp)} onKeyDown={(e) => e.key === "Enter" && onSave(temp)}
             autoFocus className="h-8 text-sm" />
         ) : (
-          <p className="text-sm text-foreground truncate">{value || "—"}</p>
+          <p className="text-sm text-foreground truncate">
+            {isPassword ? (visible ? (value || "—") : maskedValue) : (value || "—")}
+          </p>
         )}
       </div>
       <div className="flex items-center gap-1 ml-3 shrink-0">
+        {isPassword && (
+          <button onClick={() => setVisible(!visible)}
+            className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+            {visible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+        )}
         {!isEditing && (
           <button onClick={onEdit}
             className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
