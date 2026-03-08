@@ -27,8 +27,7 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" onClick={toggle} className="rounded-full">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
-          <Link to="/login"><Button variant="ghost" size="sm" className="font-medium">Log in</Button></Link>
-          <Link to="/login?mode=signup"><Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Sign up</Button></Link>
+          <Link to="/login"><Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Log in</Button></Link>
         </div>
       </div>
     </nav>
