@@ -6,7 +6,7 @@ import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
 import Footer from "@/components/Footer";
 
-const sections = ["hero", "how", "features", "footer"] as const;
+const sections = ["hero", "how", "features", "contact"] as const;
 
 const Index = () => {
   const [current, setCurrent] = useState(0);
