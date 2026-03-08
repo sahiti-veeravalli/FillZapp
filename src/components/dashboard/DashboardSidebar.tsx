@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag, IdCard } from "lucide-react";
+import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag, IdCard, CreditCard, MapPin, Globe, Target } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { type CustomField } from "@/components/dashboard/CustomFields";
@@ -14,9 +14,13 @@ interface DashboardSidebarProps {
 const menuItems = [
   { id: "overview", label: "Overview", icon: User },
   { id: "personal", label: "Personal Info", icon: UserCircle },
+  { id: "addresses", label: "Addresses", icon: MapPin },
   { id: "professional", label: "Professional", icon: Briefcase },
   { id: "education", label: "Education", icon: GraduationCap },
+  { id: "job-preferences", label: "Job Preferences", icon: Target },
   { id: "government-ids", label: "Government IDs", icon: IdCard },
+  { id: "financial", label: "Financial & Payments", icon: CreditCard },
+  { id: "social-profiles", label: "Social Profiles", icon: Globe },
   { id: "documents", label: "Documents", icon: FileText },
   { id: "custom-fields", label: "Custom Fields", icon: PlusCircle },
   { id: "settings", label: "Settings", icon: Settings },
