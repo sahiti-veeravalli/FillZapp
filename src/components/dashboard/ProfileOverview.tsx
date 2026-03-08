@@ -50,7 +50,7 @@ const ReadOnlyField = ({ label, value, fieldKey, highlighted }: { label: string;
   );
 };
 
-const ProfileOverview = () => {
+const ProfileOverview = ({ highlightField }: { highlightField?: string | null }) => {
   const { user } = useAuth();
   const [data, setData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
