@@ -7,6 +7,7 @@ import ProfessionalSection from "@/components/dashboard/ProfessionalSection";
 import EducationSection from "@/components/dashboard/EducationSection";
 import CustomFields from "@/components/dashboard/CustomFields";
 import DocumentsSection from "@/components/dashboard/DocumentsSection";
+import GovernmentIDsSection from "@/components/dashboard/GovernmentIDsSection";
 import SettingsSection from "@/components/dashboard/SettingsSection";
 import { type CustomField } from "@/components/dashboard/CustomFields";
 
@@ -35,6 +36,7 @@ const Dashboard = () => {
           {activeTab === "personal" && <PersonalInfoSection />}
           {activeTab === "professional" && <ProfessionalSection />}
           {activeTab === "education" && <EducationSection />}
+          {activeTab === "government-ids" && <GovernmentIDsSection />}
           {activeTab === "documents" && <DocumentsSection />}
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />

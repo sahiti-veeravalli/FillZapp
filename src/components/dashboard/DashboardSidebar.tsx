@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag } from "lucide-react";
+import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag, IdCard } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { type CustomField } from "@/components/dashboard/CustomFields";
@@ -16,6 +16,7 @@ const menuItems = [
   { id: "personal", label: "Personal Info", icon: UserCircle },
   { id: "professional", label: "Professional", icon: Briefcase },
   { id: "education", label: "Education", icon: GraduationCap },
+  { id: "government-ids", label: "Government IDs", icon: IdCard },
   { id: "documents", label: "Documents", icon: FileText },
   { id: "custom-fields", label: "Custom Fields", icon: PlusCircle },
   { id: "settings", label: "Settings", icon: Settings },
