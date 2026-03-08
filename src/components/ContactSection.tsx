@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, MessageSquare, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ContactSection = () => {
