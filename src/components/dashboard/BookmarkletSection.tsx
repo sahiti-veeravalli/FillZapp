@@ -41,10 +41,19 @@ const FIELD_SYNONYMS: Record<string, string[]> = {
 function flattenData(obj: Record<string, any>, prefix = ""): Record<string, string> {
   const result: Record<string, string> = {};
   for (const [key, value] of Object.entries(obj)) {
-    if (value && typeof value === "object" && !Array.isArray(value)) {
-      Object.assign(result, flattenData(value, prefix));
-    } else if (value !== undefined && value !== null) {
-      result[key] = Array.isArray(value) ? value.join(", ") : String(value);
+    if (value === undefined || value === null || value === "") continue;
+    if (Array.isArray(value)) {
+      const joined = value.filter(Boolean).join(", ");
+      if (joined) result[key] = joined;
+    } else if (typeof value === "object") {
+      // Recursively flatten nested objects, skip empty ones
+      const nested = flattenData(value, prefix);
+      Object.assign(result, nested);
+    } else {
+      const str = String(value).trim();
+      if (str && str !== "[object Object]") {
+        result[key] = str;
+      }
     }
   }
   return result;
