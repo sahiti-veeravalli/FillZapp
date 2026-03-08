@@ -85,7 +85,7 @@ const ProfileOverview = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((s) => (
-          <div key={s.label} className="bg-card border border-border rounded-xl p-5 text-center">
+          <div key={s.label} className="bg-card border border-border rounded-xl p-5 text-center hover-glow cursor-default">
             <p className={`text-3xl font-display font-bold ${s.color}`}>{s.value}</p>
             <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
           </div>
@@ -93,7 +93,7 @@ const ProfileOverview = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card border border-border rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6 hover-glow">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <User className="w-5 h-5 text-primary" />
@@ -105,7 +105,7 @@ const ProfileOverview = () => {
           ))}
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6 hover-glow">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <Briefcase className="w-5 h-5 text-primary" />
@@ -117,7 +117,7 @@ const ProfileOverview = () => {
           ))}
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6 hover-glow">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
               <GraduationCap className="w-5 h-5 text-primary" />

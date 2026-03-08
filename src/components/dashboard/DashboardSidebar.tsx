@@ -31,8 +31,8 @@ const DashboardSidebar = ({ activeTab, onTabChange, onClose, customFields = [] }
 
   return (
     <aside className="w-64 min-h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
-      <button onClick={() => navigate("/")} className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center">
+      <button onClick={() => navigate("/")} className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity group">
+        <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center group-hover:shadow-[0_0_15px_hsl(var(--primary)/0.4)] transition-shadow duration-300">
           <Zap className="w-5 h-5 text-primary" />
         </div>
         <span className="font-display text-xl font-bold text-sidebar-foreground">FillZapp</span>
@@ -44,10 +44,10 @@ const DashboardSidebar = ({ activeTab, onTabChange, onClose, customFields = [] }
             key={item.id}
             onClick={() => onTabChange(item.id)}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mb-1",
+              "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 mb-1",
               activeTab === item.id
-                ? "bg-primary text-primary-foreground"
-                : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+                ? "bg-primary text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.3)]"
+                : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground hover:shadow-[0_0_12px_hsl(var(--primary)/0.15)]"
             )}
           >
             <item.icon className="w-4 h-4" />

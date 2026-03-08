@@ -111,7 +111,7 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
         <h1 className="text-3xl font-display font-bold text-foreground">{title}</h1>
         <p className="text-muted-foreground mt-1">{subtitle}</p>
       </div>
-      <div className="bg-card border border-border rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6 hover-glow">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
             <Icon className="w-5 h-5 text-primary" />

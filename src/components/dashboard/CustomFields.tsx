@@ -83,7 +83,7 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
       </div>
 
       {/* Add New Field card */}
-      <div className="bg-card border border-border rounded-xl p-6">
+      <div className="bg-card border border-border rounded-xl p-6 hover-glow">
         <h2 className="text-lg font-display font-bold text-foreground mb-4">Add New Field</h2>
         <div>
           <p className="text-sm font-medium text-foreground mb-1.5">Field Name</p>
@@ -109,7 +109,7 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
           {fields.map((f) => (
             <div
               key={f.id}
-              className="bg-card border border-border rounded-xl p-4 flex items-center justify-between"
+              className="bg-card border border-border rounded-xl p-4 flex items-center justify-between hover-glow"
             >
               <p className="text-sm font-medium text-foreground">{f.name}</p>
               <button
