@@ -23,15 +23,55 @@ const steps = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+} as const;
+
+const headingVariants = {
+  hidden: { opacity: 0, scale: 0.85, y: 40 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 100, damping: 12, duration: 0.8 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 60, scale: 0.9, rotateX: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotateX: 0,
+    transition: { type: "spring" as const, stiffness: 80, damping: 14 },
+  },
+};
+
+const iconVariants = {
+  hidden: { scale: 0, rotate: -45 },
+  visible: {
+    scale: 1,
+    rotate: 0,
+    transition: { type: "spring" as const, stiffness: 200, damping: 12, delay: 0.15 },
+  },
+};
+
 const HowItWorks = () => {
   return (
-    <section id="how" className="py-28 px-6">
+    <section id="how" className="py-28 px-6 overflow-hidden">
       <div className="section-container">
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
+          variants={headingVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
           className="text-4xl sm:text-6xl font-extrabold font-display tracking-tighter text-center mb-4"
         >
           How it <span className="text-primary">works</span>
@@ -40,25 +80,28 @@ const HowItWorks = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-muted-foreground text-center mb-20 max-w-xl mx-auto text-lg"
         >
           Three simple steps to never fill a form manually again.
         </motion.p>
 
-        <div className="grid md:grid-cols-3 gap-10">
+        <motion.div
+          className="grid md:grid-cols-3 gap-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-60px" }}
+        >
           {steps.map((step, i) => (
-            <motion.div
-              key={step.title}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-            >
-              <GlowCard className="rounded-2xl border border-border bg-background p-8">
-                <div className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6">
+            <motion.div key={step.title} variants={cardVariants}>
+              <GlowCard className="rounded-2xl border border-border bg-background p-8 h-full">
+                <motion.div
+                  variants={iconVariants}
+                  className="w-14 h-14 rounded-2xl bg-secondary flex items-center justify-center mb-6"
+                >
                   <step.icon className="w-7 h-7 text-primary" />
-                </div>
+                </motion.div>
                 <div className="text-xs font-bold text-primary mb-2 font-display uppercase tracking-widest">
                   Step {i + 1}
                 </div>
@@ -71,7 +114,7 @@ const HowItWorks = () => {
               </GlowCard>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
