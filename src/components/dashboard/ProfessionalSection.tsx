@@ -1,14 +1,12 @@
 import EditableSection, { type FieldGroup } from "./EditableSection";
-import { Briefcase, Link2, Building, KeyRound } from "lucide-react";
+import { Briefcase, Link2, Building } from "lucide-react";
 
 const allFields = [
   { key: "jobTitle", label: "Job Title" },
   { key: "company", label: "Company" },
   { key: "experience", label: "Years of Experience" },
-  { key: "linkedin", label: "LinkedIn" },
-  { key: "linkedinPassword", label: "LinkedIn Password", isPassword: true },
-  { key: "github", label: "GitHub" },
-  { key: "githubPassword", label: "GitHub Password", isPassword: true },
+  { key: "linkedin", label: "LinkedIn", hasPassword: true },
+  { key: "github", label: "GitHub", hasPassword: true },
   { key: "portfolio", label: "Portfolio" },
 ];
 
@@ -24,12 +22,10 @@ const groups: FieldGroup[] = [
   },
   {
     title: "Links & Credentials",
-    icon: KeyRound,
+    icon: Link2,
     fields: [
-      { key: "linkedin", label: "LinkedIn" },
-      { key: "linkedinPassword", label: "LinkedIn Password", isPassword: true },
-      { key: "github", label: "GitHub" },
-      { key: "githubPassword", label: "GitHub Password", isPassword: true },
+      { key: "linkedin", label: "LinkedIn", hasPassword: true },
+      { key: "github", label: "GitHub", hasPassword: true },
       { key: "portfolio", label: "Portfolio" },
     ],
   },

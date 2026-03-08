@@ -13,7 +13,10 @@ interface FieldItem {
   key: string;
   label: string;
   isCustom?: boolean;
+  /** If true, this field is a standalone password/secret (masked, no username) */
   isPassword?: boolean;
+  /** If true, this field has a paired password stored at key_password */
+  hasPassword?: boolean;
   notes?: string;
 }
 
@@ -29,7 +32,6 @@ interface EditableSectionProps {
   icon: LucideIcon;
   firestoreKey: string;
   defaultFields: FieldItem[];
-  /** Optional field groups for multi-column layout */
   groups?: FieldGroup[];
 }
 
@@ -42,7 +44,7 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
   const [loading, setLoading] = useState(true);
   const [newFieldName, setNewFieldName] = useState("");
   const [newFieldNotes, setNewFieldNotes] = useState("");
-  const [newFieldIsPassword, setNewFieldIsPassword] = useState(false);
+  const [newFieldHasPassword, setNewFieldHasPassword] = useState(false);
   const [showAddField, setShowAddField] = useState(false);
 
   useEffect(() => {
@@ -53,9 +55,15 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
         if (snap.exists()) {
           const d = snap.data();
           const values: Record<string, string> = {};
-          defaultFields.forEach((f) => { values[f.key] = d[f.key] || ""; });
+          defaultFields.forEach((f) => {
+            values[f.key] = d[f.key] || "";
+            if (f.hasPassword) values[`${f.key}_password`] = d[`${f.key}_password`] || "";
+          });
           const customFields = (d[`${firestoreKey}_customFields`] as FieldItem[] | undefined) || [];
-          customFields.forEach((f) => { values[f.key] = d[f.key] || ""; });
+          customFields.forEach((f) => {
+            values[f.key] = d[f.key] || "";
+            if (f.hasPassword) values[`${f.key}_password`] = d[`${f.key}_password`] || "";
+          });
           setFields([...defaultFields, ...customFields]);
           setData(values);
         }
@@ -78,6 +86,19 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
     }
   };
 
+  const saveFieldPair = async (key: string, mainVal: string, passVal: string) => {
+    setEditing(null);
+    const updated = { ...data, [key]: mainVal, [`${key}_password`]: passVal };
+    setData(updated);
+    if (!user) return;
+    try {
+      await setDoc(doc(db, "users", user.uid), { [key]: mainVal, [`${key}_password`]: passVal }, { merge: true });
+      toast({ title: "Saved" });
+    } catch {
+      toast({ title: "Error", description: "Failed to save.", variant: "destructive" });
+    }
+  };
+
   const addField = async () => {
     if (!newFieldName.trim()) return;
     const key = `${firestoreKey}_custom_${Date.now()}`;
@@ -85,16 +106,16 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
       key,
       label: newFieldName.trim(),
       isCustom: true,
-      isPassword: newFieldIsPassword,
+      hasPassword: newFieldHasPassword,
       notes: newFieldNotes.trim() || undefined,
     };
     const updatedFields = [...fields, newField];
     const customFields = updatedFields.filter((f) => f.isCustom);
     setFields(updatedFields);
-    setData({ ...data, [key]: "" });
+    setData({ ...data, [key]: "", ...(newFieldHasPassword ? { [`${key}_password`]: "" } : {}) });
     setNewFieldName("");
     setNewFieldNotes("");
-    setNewFieldIsPassword(false);
+    setNewFieldHasPassword(false);
     setShowAddField(false);
     if (!user) return;
     try {
@@ -111,12 +132,14 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
     setFields(updatedFields);
     const newData = { ...data };
     delete newData[fieldToDelete.key];
+    delete newData[`${fieldToDelete.key}_password`];
     setData(newData);
     if (!user) return;
     try {
       await setDoc(doc(db, "users", user.uid), {
         [`${firestoreKey}_customFields`]: customFields,
         [fieldToDelete.key]: "",
+        [`${fieldToDelete.key}_password`]: "",
       }, { merge: true });
       toast({ title: "Deleted" });
     } catch {}
@@ -124,22 +147,36 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
 
   if (loading) return <div className="flex items-center justify-center h-64 text-muted-foreground">Loading...</div>;
 
-  // Get custom fields (not in any group)
   const customFields = fields.filter((f) => f.isCustom);
 
   const addFieldProps = {
-    showAddField,
-    newFieldName,
-    setNewFieldName,
-    newFieldNotes,
-    setNewFieldNotes,
-    newFieldIsPassword,
-    setNewFieldIsPassword,
-    setShowAddField,
-    addField,
+    showAddField, newFieldName, setNewFieldName,
+    newFieldNotes, setNewFieldNotes,
+    newFieldHasPassword, setNewFieldHasPassword,
+    setShowAddField, addField,
   };
 
-  // If groups are provided, render multi-column layout
+  const renderField = (f: FieldItem) => {
+    const isEditing = editing === f.key;
+    return (
+      <EditableField
+        key={f.key}
+        label={f.label}
+        value={data[f.key] || ""}
+        password={f.hasPassword ? (data[`${f.key}_password`] || "") : undefined}
+        isEditing={isEditing}
+        isCustom={f.isCustom}
+        isPassword={f.isPassword}
+        hasPassword={f.hasPassword}
+        notes={f.notes}
+        onEdit={() => setEditing(f.key)}
+        onSave={(v) => saveValue(f.key, v)}
+        onSavePair={(main, pass) => saveFieldPair(f.key, main, pass)}
+        onDelete={() => deleteField(f)}
+      />
+    );
+  };
+
   if (groups && groups.length > 0) {
     const gridCols = groups.length === 2 ? "lg:grid-cols-2" : groups.length >= 3 ? "lg:grid-cols-3" : "";
 
@@ -159,49 +196,16 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
                 </div>
                 <h3 className="text-base font-display font-bold text-foreground">{group.title}</h3>
               </div>
-              {group.fields.map((f) => {
-                const isEditing = editing === f.key;
-                return (
-                  <EditableField
-                    key={f.key}
-                    label={f.label}
-                    value={data[f.key] || ""}
-                    isEditing={isEditing}
-                    isCustom={f.isCustom}
-                    isPassword={f.isPassword}
-                    notes={f.notes}
-                    onEdit={() => setEditing(f.key)}
-                    onSave={(v) => saveValue(f.key, v)}
-                    onDelete={() => deleteField(f)}
-                  />
-                );
-              })}
+              {group.fields.map(renderField)}
             </div>
           ))}
         </div>
 
-        {/* Custom fields in a full-width card below */}
         {customFields.length > 0 && (
           <div className="bg-card border border-border rounded-xl p-5 hover-glow">
             <h3 className="text-base font-display font-bold text-foreground mb-3">Additional Information</h3>
             <div className={`grid grid-cols-1 ${groups.length >= 2 ? "sm:grid-cols-2" : ""} gap-x-6`}>
-              {customFields.map((f) => {
-                const isEditing = editing === f.key;
-                return (
-                  <EditableField
-                    key={f.key}
-                    label={f.label}
-                    value={data[f.key] || ""}
-                    isEditing={isEditing}
-                    isCustom={f.isCustom}
-                    isPassword={f.isPassword}
-                    notes={f.notes}
-                    onEdit={() => setEditing(f.key)}
-                    onSave={(v) => saveValue(f.key, v)}
-                    onDelete={() => deleteField(f)}
-                  />
-                );
-              })}
+              {customFields.map(renderField)}
             </div>
           </div>
         )}
@@ -211,7 +215,6 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
     );
   }
 
-  // Fallback: single-column layout
   return (
     <div className="space-y-6">
       <div>
@@ -225,51 +228,32 @@ const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFie
           </div>
           <h2 className="text-xl font-display font-bold text-foreground">{title} Details</h2>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-          {fields.map((f) => {
-            const isEditing = editing === f.key;
-            return (
-              <EditableField
-                key={f.key}
-                label={f.label}
-                value={data[f.key] || ""}
-                isEditing={isEditing}
-                isCustom={f.isCustom}
-                isPassword={f.isPassword}
-                notes={f.notes}
-                onEdit={() => setEditing(f.key)}
-                onSave={(v) => saveValue(f.key, v)}
-                onDelete={() => deleteField(f)}
-              />
-            );
-          })}
+          {fields.map(renderField)}
         </div>
-
         <AddFieldRow {...addFieldProps} />
       </div>
     </div>
   );
 };
 
-const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNotes, setNewFieldNotes, newFieldIsPassword, setNewFieldIsPassword, setShowAddField, addField }: {
-  showAddField: boolean; newFieldName: string; newFieldNotes: string; newFieldIsPassword: boolean;
+/* ── Add Field Row ── */
+const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNotes, setNewFieldNotes, newFieldHasPassword, setNewFieldHasPassword, setShowAddField, addField }: {
+  showAddField: boolean; newFieldName: string; newFieldNotes: string; newFieldHasPassword: boolean;
   setNewFieldName: (v: string) => void; setNewFieldNotes: (v: string) => void;
-  setNewFieldIsPassword: (v: boolean) => void; setShowAddField: (v: boolean) => void; addField: () => void;
+  setNewFieldHasPassword: (v: boolean) => void; setShowAddField: (v: boolean) => void; addField: () => void;
 }) => (
   showAddField ? (
     <div className="bg-card border border-border rounded-xl p-5 space-y-4">
       <h3 className="text-sm font-display font-bold text-foreground">Add New Information</h3>
-      <div className="flex items-center gap-3">
-        <Input
-          value={newFieldName}
-          onChange={(e) => setNewFieldName(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && addField()}
-          placeholder="Field name (e.g. Netflix Password, API Key)"
-          autoFocus
-          className="h-9 text-sm flex-1"
-        />
-      </div>
+      <Input
+        value={newFieldName}
+        onChange={(e) => setNewFieldName(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && addField()}
+        placeholder="Field name (e.g. Netflix, AWS Console)"
+        autoFocus
+        className="h-9 text-sm"
+      />
       <Input
         value={newFieldNotes}
         onChange={(e) => setNewFieldNotes(e.target.value)}
@@ -278,20 +262,20 @@ const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNote
       />
       <div className="flex items-center gap-2">
         <Checkbox
-          id="isPassword"
-          checked={newFieldIsPassword}
-          onCheckedChange={(checked) => setNewFieldIsPassword(checked === true)}
+          id="hasPassword"
+          checked={newFieldHasPassword}
+          onCheckedChange={(checked) => setNewFieldHasPassword(checked === true)}
         />
-        <label htmlFor="isPassword" className="text-sm text-muted-foreground flex items-center gap-1.5 cursor-pointer">
+        <label htmlFor="hasPassword" className="text-sm text-muted-foreground flex items-center gap-1.5 cursor-pointer">
           <KeyRound className="w-3.5 h-3.5" />
-          This is a password / secret
+          Include a password / secret field
         </label>
       </div>
       <div className="flex items-center gap-2">
         <Button size="sm" onClick={addField} className="gap-1.5">
           <PlusCircle className="w-3.5 h-3.5" /> Add
         </Button>
-        <Button size="sm" variant="ghost" onClick={() => { setShowAddField(false); setNewFieldName(""); setNewFieldNotes(""); setNewFieldIsPassword(false); }}>
+        <Button size="sm" variant="ghost" onClick={() => { setShowAddField(false); setNewFieldName(""); setNewFieldNotes(""); setNewFieldHasPassword(false); }}>
           Cancel
         </Button>
       </div>
@@ -307,55 +291,100 @@ const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNote
   )
 );
 
-const EditableField = ({ label, value, isEditing, isCustom, isPassword, notes, onEdit, onSave, onDelete }: {
-  label: string; value: string; isEditing: boolean; isCustom?: boolean; isPassword?: boolean; notes?: string;
-  onEdit: () => void; onSave: (v: string) => void; onDelete: () => void;
+/* ── Editable Field (supports paired username + password) ── */
+const EditableField = ({ label, value, password, isEditing, isCustom, isPassword, hasPassword, notes, onEdit, onSave, onSavePair, onDelete }: {
+  label: string; value: string; password?: string; isEditing: boolean; isCustom?: boolean;
+  isPassword?: boolean; hasPassword?: boolean; notes?: string;
+  onEdit: () => void; onSave: (v: string) => void; onSavePair: (main: string, pass: string) => void; onDelete: () => void;
 }) => {
-  const [temp, setTemp] = useState(value);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => { setTemp(value); }, [value]);
+  const [tempVal, setTempVal] = useState(value);
+  const [tempPass, setTempPass] = useState(password || "");
+  const [passVisible, setPassVisible] = useState(false);
+  useEffect(() => { setTempVal(value); }, [value]);
+  useEffect(() => { setTempPass(password || ""); }, [password]);
 
-  const maskedValue = value ? "••••••••" : "—";
+  const handleSave = () => {
+    if (hasPassword) {
+      onSavePair(tempVal, tempPass);
+    } else {
+      onSave(tempVal);
+    }
+  };
+
+  const maskedPass = password ? "••••••••" : "—";
 
   return (
-    <div className="flex items-center justify-between py-3 border-b border-border last:border-b-0">
-      <div className="flex-1 min-w-0">
+    <div className="py-3 border-b border-border last:border-b-0">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 mb-1">
           <p className="text-xs font-medium text-muted-foreground">{label}</p>
-          {isPassword && <KeyRound className="w-3 h-3 text-muted-foreground/60" />}
+          {(hasPassword || isPassword) && <KeyRound className="w-3 h-3 text-muted-foreground/60" />}
         </div>
-        {notes && <p className="text-[11px] text-muted-foreground/50 mb-1">{notes}</p>}
-        {isEditing ? (
-          <Input value={temp} onChange={(e) => setTemp(e.target.value)}
-            type={isPassword && !visible ? "password" : "text"}
-            onBlur={() => onSave(temp)} onKeyDown={(e) => e.key === "Enter" && onSave(temp)}
-            autoFocus className="h-8 text-sm" />
-        ) : (
-          <p className="text-sm text-foreground truncate">
-            {isPassword ? (visible ? (value || "—") : maskedValue) : (value || "—")}
-          </p>
-        )}
+        <div className="flex items-center gap-1 shrink-0">
+          {(hasPassword || isPassword) && (
+            <button onClick={() => setPassVisible(!passVisible)}
+              className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+              {passVisible ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
+          )}
+          {!isEditing && (
+            <button onClick={onEdit}
+              className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+          )}
+          {isCustom && !isEditing && (
+            <button onClick={onDelete}
+              className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors">
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
       </div>
-      <div className="flex items-center gap-1 ml-3 shrink-0">
-        {isPassword && (
-          <button onClick={() => setVisible(!visible)}
-            className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
-            {visible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-          </button>
-        )}
-        {!isEditing && (
-          <button onClick={onEdit}
-            className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
-            <Pencil className="w-4 h-4" />
-          </button>
-        )}
-        {isCustom && !isEditing && (
-          <button onClick={onDelete}
-            className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors">
-            <Trash2 className="w-4 h-4" />
-          </button>
-        )}
-      </div>
+      {notes && <p className="text-[11px] text-muted-foreground/50 mb-1">{notes}</p>}
+
+      {isEditing ? (
+        <div className="space-y-2">
+          {/* For standalone password fields, single masked input */}
+          {isPassword && !hasPassword ? (
+            <Input value={tempVal} onChange={(e) => setTempVal(e.target.value)}
+              type={passVisible ? "text" : "password"} placeholder="Password"
+              onBlur={handleSave} onKeyDown={(e) => e.key === "Enter" && handleSave()}
+              autoFocus className="h-8 text-sm" />
+          ) : (
+            <>
+              <Input value={tempVal} onChange={(e) => setTempVal(e.target.value)}
+                placeholder="Username / Email / URL"
+                autoFocus className="h-8 text-sm"
+                onKeyDown={(e) => e.key === "Enter" && handleSave()} />
+              {hasPassword && (
+                <Input value={tempPass} onChange={(e) => setTempPass(e.target.value)}
+                  type={passVisible ? "text" : "password"} placeholder="Password"
+                  onBlur={handleSave} onKeyDown={(e) => e.key === "Enter" && handleSave()}
+                  className="h-8 text-sm" />
+              )}
+            </>
+          )}
+          <Button size="sm" variant="secondary" onClick={handleSave} className="h-7 text-xs">
+            Save
+          </Button>
+        </div>
+      ) : (
+        <div className="space-y-0.5">
+          {isPassword && !hasPassword ? (
+            <p className="text-sm text-foreground">{passVisible ? (value || "—") : (value ? "••••••••" : "—")}</p>
+          ) : (
+            <>
+              <p className="text-sm text-foreground truncate">{value || "—"}</p>
+              {hasPassword && (
+                <p className="text-xs text-muted-foreground font-mono">
+                  {passVisible ? (password || "—") : maskedPass}
+                </p>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };
