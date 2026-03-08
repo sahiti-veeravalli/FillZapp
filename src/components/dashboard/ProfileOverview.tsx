@@ -85,7 +85,7 @@ const ProfileOverview = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((s) => (
-          <div key={s.label} className="bg-card border border-border rounded-xl p-5 text-center">
+          <div key={s.label} className="bg-card border border-border rounded-xl p-5 text-center hover-glow cursor-default">
             <p className={`text-3xl font-display font-bold ${s.color}`}>{s.value}</p>
             <p className="text-sm text-muted-foreground mt-1">{s.label}</p>
           </div>
