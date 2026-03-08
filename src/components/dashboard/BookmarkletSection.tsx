@@ -41,10 +41,19 @@ const FIELD_SYNONYMS: Record<string, string[]> = {
 function flattenData(obj: Record<string, any>, prefix = ""): Record<string, string> {
   const result: Record<string, string> = {};
   for (const [key, value] of Object.entries(obj)) {
-    if (value && typeof value === "object" && !Array.isArray(value)) {
-      Object.assign(result, flattenData(value, prefix));
-    } else if (value !== undefined && value !== null) {
-      result[key] = Array.isArray(value) ? value.join(", ") : String(value);
+    if (value === undefined || value === null || value === "") continue;
+    if (Array.isArray(value)) {
+      const joined = value.filter(Boolean).join(", ");
+      if (joined) result[key] = joined;
+    } else if (typeof value === "object") {
+      // Recursively flatten nested objects, skip empty ones
+      const nested = flattenData(value, prefix);
+      Object.assign(result, nested);
+    } else {
+      const str = String(value).trim();
+      if (str && str !== "[object Object]") {
+        result[key] = str;
+      }
     }
   }
   return result;
@@ -97,12 +106,23 @@ const BookmarkletSection = () => {
         if (snap.exists()) {
           const raw = snap.data();
           const flat = flattenData(raw);
-          // Remove metadata fields
-          delete flat.createdAt;
-          delete flat.updatedAt;
-          setUserData(flat);
-          setFieldCount(Object.keys(flat).length);
-          setBookmarkletUrl(generateBookmarkletCode(flat));
+          // Remove metadata fields and password fields
+          const keysToRemove = Object.keys(flat).filter(
+            (k) => k === "createdAt" || k === "updatedAt" || k.toLowerCase().includes("password")
+          );
+          keysToRemove.forEach((k) => delete flat[k]);
+          
+          // Only keep fields that have actual values
+          const cleanData: Record<string, string> = {};
+          for (const [k, v] of Object.entries(flat)) {
+            if (v && v.trim() && v !== "undefined" && v !== "null") {
+              cleanData[k] = v;
+            }
+          }
+          
+          setUserData(cleanData);
+          setFieldCount(Object.keys(cleanData).length);
+          setBookmarkletUrl(generateBookmarkletCode(cleanData));
         }
       } catch (err) {
         console.error("Failed to load user data for bookmarklet", err);
@@ -163,8 +183,8 @@ const BookmarkletSection = () => {
             {bookmarkletUrl ? (
               <a
                 href={bookmarkletUrl}
-                onClick={(e) => e.preventDefault()}
                 draggable
+                title="Drag me to your bookmarks bar!"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-all duration-300 cursor-grab active:cursor-grabbing select-none"
               >
                 <Zap className="w-4 h-4" />
@@ -180,21 +200,24 @@ const BookmarkletSection = () => {
             </Badge>
           </div>
 
-          {/* Alternative: copy */}
-          <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopy}
-              disabled={!bookmarkletUrl}
-              className="gap-2"
-            >
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              {copied ? "Copied!" : "Copy bookmarklet code"}
-            </Button>
-            <span className="text-xs text-muted-foreground">
-              Or paste manually into a new bookmark's URL field
-            </span>
+          {/* Alternative methods */}
+          <div className="space-y-3">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Can't drag? Try these:</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCopy}
+                disabled={!bookmarkletUrl}
+                className="gap-2"
+              >
+                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                {copied ? "Copied!" : "Copy bookmarklet code"}
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                Then: Right-click bookmarks bar → "Add page" → paste the code as the URL
+              </span>
+            </div>
           </div>
         </CardContent>
       </Card>
