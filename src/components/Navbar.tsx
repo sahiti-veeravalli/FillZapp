@@ -1,5 +1,6 @@
 import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Navbar = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
@@ -15,8 +16,8 @@ const Navbar = () => (
       </div>
 
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" className="font-medium">Log in</Button>
-        <Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Try for free</Button>
+        <Link to="/login"><Button variant="ghost" size="sm" className="font-medium">Log in</Button></Link>
+        <Link to="/login"><Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Sign up</Button></Link>
       </div>
     </div>
   </nav>
