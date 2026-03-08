@@ -109,7 +109,7 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
           {fields.map((f) => (
             <div
               key={f.id}
-              className="bg-card border border-border rounded-xl p-4 flex items-center justify-between"
+              className="bg-card border border-border rounded-xl p-4 flex items-center justify-between hover-glow"
             >
               <p className="text-sm font-medium text-foreground">{f.name}</p>
               <button

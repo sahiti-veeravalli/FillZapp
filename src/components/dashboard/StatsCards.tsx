@@ -33,7 +33,7 @@ const StatsCards = () => {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="bg-card border border-border rounded-xl p-5 flex items-start justify-between"
+          className="bg-card border border-border rounded-xl p-5 flex items-start justify-between hover-glow cursor-default"
         >
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
