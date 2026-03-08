@@ -85,24 +85,15 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
       {/* Add New Field card */}
       <div className="bg-card border border-border rounded-xl p-6">
         <h2 className="text-lg font-display font-bold text-foreground mb-4">Add New Field</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <p className="text-sm font-medium text-foreground mb-1.5">Field Name</p>
-            <Input
-              placeholder="e.g. Company Name"
-              value={fieldName}
-              onChange={(e) => setFieldName(e.target.value)}
-            />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-foreground mb-1.5">Value</p>
-            <Input
-              placeholder="e.g. Acme Corp"
-              value={fieldValue}
-              onChange={(e) => setFieldValue(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-            />
-          </div>
+        <div>
+          <p className="text-sm font-medium text-foreground mb-1.5">Field Name</p>
+          <Input
+            placeholder="e.g. Education"
+            value={fieldName}
+            onChange={(e) => setFieldName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+            className="max-w-md"
+          />
         </div>
         <Button onClick={handleAdd} className="mt-4 gap-2">
           <PlusCircle className="w-4 h-4" />
