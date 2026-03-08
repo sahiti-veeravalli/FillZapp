@@ -2,15 +2,26 @@ import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProfileOverview from "@/components/dashboard/ProfileOverview";
+import { PanelLeft } from "lucide-react";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div className="flex min-h-screen bg-background">
-      <DashboardSidebar activeTab={activeTab} onTabChange={setActiveTab} />
+      {sidebarOpen && (
+        <DashboardSidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onClose={() => setSidebarOpen(false)}
+        />
+      )}
       <div className="flex-1 flex flex-col">
-        <DashboardHeader />
+        <DashboardHeader
+          sidebarOpen={sidebarOpen}
+          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        />
         <main className="flex-1 p-6 overflow-auto">
           {activeTab === "overview" && <ProfileOverview />}
 
