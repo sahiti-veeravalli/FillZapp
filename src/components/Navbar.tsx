@@ -1,4 +1,5 @@
-import { Zap, Moon, Sun, Puzzle } from "lucide-react";
+import { Moon, Sun, Puzzle } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
