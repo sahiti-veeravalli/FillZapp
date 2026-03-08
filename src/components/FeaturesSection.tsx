@@ -1,4 +1,5 @@
 import { Shield, RefreshCw, Layout, Bell } from "lucide-react";
+import GlowCard from "@/components/GlowCard";
 
 const features = [
   {
@@ -33,9 +34,9 @@ const FeaturesSection = () => {
 
         <div className="grid sm:grid-cols-2 gap-8">
           {features.map((f) => (
-            <div
+            <GlowCard
               key={f.title}
-              className="flex gap-5 p-7 rounded-2xl bg-background border border-border hover:border-primary/30 transition-all"
+              className="flex gap-5 p-7 rounded-2xl bg-background border border-border"
             >
               <div className="shrink-0 w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
                 <f.icon className="w-6 h-6 text-primary" />
@@ -48,7 +49,7 @@ const FeaturesSection = () => {
                   {f.desc}
                 </p>
               </div>
-            </div>
+            </GlowCard>
           ))}
         </div>
       </div>
