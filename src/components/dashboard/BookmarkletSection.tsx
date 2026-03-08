@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bookmark, Copy, Check, Zap, AlertCircle } from "lucide-react";
+import { Bookmark, Copy, Check, Zap, AlertCircle, ExternalLink } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 // The field synonym map (same as the chrome extension)
 const FIELD_SYNONYMS: Record<string, string[]> = {
