@@ -105,17 +105,6 @@ const ProfileOverview = () => {
           ))}
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-6 hover-glow">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-primary" />
-            </div>
-            <h2 className="text-xl font-display font-bold text-foreground">Professional</h2>
-          </div>
-          {professionalFields.map((f) => (
-            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
-          ))}
-        </div>
 
         <div className="bg-card border border-border rounded-xl p-6 hover-glow">
           <div className="flex items-center gap-3 mb-4">
