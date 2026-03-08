@@ -4,26 +4,26 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { User, Briefcase, GraduationCap } from "lucide-react";
 
-interface ProfileData {
-  fullName: string;
-  email: string;
-  phone: string;
-  address: string;
-  dateOfBirth: string;
-  linkedin: string;
-  github: string;
-  portfolio: string;
-  university: string;
-  degree: string;
-  graduationYear: string;
-  gpa: string;
-}
+interface FieldItem { key: string; label: string; isCustom?: boolean; }
 
-const emptyProfile: ProfileData = {
-  fullName: "", email: "", phone: "", address: "", dateOfBirth: "",
-  linkedin: "", github: "", portfolio: "",
-  university: "", degree: "", graduationYear: "", gpa: "",
-};
+const defaultPersonal = [
+  { key: "fullName", label: "Full Name" },
+  { key: "email", label: "Email" },
+  { key: "phone", label: "Phone" },
+  { key: "address", label: "Address" },
+  { key: "dateOfBirth", label: "Date of Birth" },
+];
+const defaultProfessional = [
+  { key: "linkedin", label: "LinkedIn" },
+  { key: "github", label: "GitHub" },
+  { key: "portfolio", label: "Portfolio" },
+];
+const defaultEducation = [
+  { key: "university", label: "University" },
+  { key: "degree", label: "Degree" },
+  { key: "graduationYear", label: "Graduation Year" },
+  { key: "gpa", label: "GPA" },
+];
 
 const stats = [
   { value: "12", label: "Fields Saved", color: "text-primary" },
@@ -42,7 +42,7 @@ const ReadOnlyField = ({ label, value }: { label: string; value: string }) => (
 
 const ProfileOverview = () => {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<ProfileData>(emptyProfile);
+  const [data, setData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,21 +51,30 @@ const ProfileOverview = () => {
       try {
         const snap = await getDoc(doc(db, "users", user.uid));
         if (snap.exists()) {
-          setProfile({ ...emptyProfile, ...snap.data() } as ProfileData);
+          setData(snap.data());
         } else {
-          setProfile({ ...emptyProfile, fullName: user.displayName || "", email: user.email || "" });
+          setData({ fullName: user.displayName || "", email: user.email || "" });
         }
       } catch {
-        setProfile({ ...emptyProfile, fullName: user.displayName || "", email: user.email || "" });
+        setData({ fullName: user.displayName || "", email: user.email || "" });
       }
       setLoading(false);
     };
     fetchProfile();
   }, [user]);
 
+  const getFields = (defaults: FieldItem[], firestoreKey: string): FieldItem[] => {
+    const custom = (data[`${firestoreKey}_customFields`] as FieldItem[] | undefined) || [];
+    return [...defaults, ...custom];
+  };
+
   if (loading) {
     return <div className="flex items-center justify-center h-64 text-muted-foreground">Loading profile...</div>;
   }
+
+  const personalFields = defaultPersonal;
+  const professionalFields = getFields(defaultProfessional, "professional");
+  const educationFields = getFields(defaultEducation, "education");
 
   return (
     <div className="space-y-6">
@@ -91,11 +100,9 @@ const ProfileOverview = () => {
             </div>
             <h2 className="text-xl font-display font-bold text-foreground">Personal Information</h2>
           </div>
-          <ReadOnlyField label="Full Name" value={profile.fullName} />
-          <ReadOnlyField label="Email" value={profile.email} />
-          <ReadOnlyField label="Phone" value={profile.phone} />
-          <ReadOnlyField label="Address" value={profile.address} />
-          <ReadOnlyField label="Date of Birth" value={profile.dateOfBirth} />
+          {personalFields.map((f) => (
+            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
+          ))}
         </div>
 
         <div className="bg-card border border-border rounded-xl p-6">
@@ -105,9 +112,9 @@ const ProfileOverview = () => {
             </div>
             <h2 className="text-xl font-display font-bold text-foreground">Professional</h2>
           </div>
-          <ReadOnlyField label="LinkedIn" value={profile.linkedin} />
-          <ReadOnlyField label="GitHub" value={profile.github} />
-          <ReadOnlyField label="Portfolio" value={profile.portfolio} />
+          {professionalFields.map((f) => (
+            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
+          ))}
         </div>
 
         <div className="bg-card border border-border rounded-xl p-6">
@@ -117,10 +124,9 @@ const ProfileOverview = () => {
             </div>
             <h2 className="text-xl font-display font-bold text-foreground">Education</h2>
           </div>
-          <ReadOnlyField label="University" value={profile.university} />
-          <ReadOnlyField label="Degree" value={profile.degree} />
-          <ReadOnlyField label="Graduation Year" value={profile.graduationYear} />
-          <ReadOnlyField label="GPA" value={profile.gpa} />
+          {educationFields.map((f) => (
+            <ReadOnlyField key={f.key} label={f.label} value={data[f.key] || ""} />
+          ))}
         </div>
       </div>
     </div>
