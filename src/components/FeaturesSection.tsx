@@ -33,7 +33,7 @@ const containerVariants = {
       delayChildren: 0.1,
     },
   },
-};
+} as const;
 
 const headingVariants = {
   hidden: { opacity: 0, scale: 0.85, y: 40 },
@@ -41,7 +41,7 @@ const headingVariants = {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 100, damping: 12, duration: 0.8 },
+    transition: { type: "spring" as const, stiffness: 100, damping: 12, duration: 0.8 },
   },
 };
 
@@ -51,11 +51,7 @@ const cardVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
-      type: "spring",
-      stiffness: 80,
-      damping: 14,
-    },
+    transition: { type: "spring" as const, stiffness: 80, damping: 14 },
   },
 };
 
@@ -64,7 +60,7 @@ const iconBounce = {
   visible: {
     scale: 1,
     rotate: 0,
-    transition: { type: "spring", stiffness: 250, damping: 10, delay: 0.1 },
+    transition: { type: "spring" as const, stiffness: 250, damping: 10, delay: 0.1 },
   },
 };
 
