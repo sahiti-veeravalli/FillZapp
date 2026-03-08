@@ -2,9 +2,10 @@ import { useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProfileOverview from "@/components/dashboard/ProfileOverview";
+import ProfessionalSection from "@/components/dashboard/ProfessionalSection";
+import EducationSection from "@/components/dashboard/EducationSection";
 import CustomFields from "@/components/dashboard/CustomFields";
 import { type CustomField } from "@/components/dashboard/CustomFields";
-import { PanelLeft } from "lucide-react";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -28,20 +29,8 @@ const Dashboard = () => {
         />
         <main className="flex-1 p-6 overflow-auto">
           {activeTab === "overview" && <ProfileOverview />}
-
-          {activeTab === "professional" && (
-            <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Professional</h2>
-              <p className="text-muted-foreground">Work experience and professional details coming soon.</p>
-            </div>
-          )}
-
-          {activeTab === "education" && (
-            <div className="bg-card border border-border rounded-xl p-8">
-              <h2 className="text-2xl font-display font-bold text-foreground mb-2">Education</h2>
-              <p className="text-muted-foreground">Education history details coming soon.</p>
-            </div>
-          )}
+          {activeTab === "professional" && <ProfessionalSection />}
+          {activeTab === "education" && <EducationSection />}
 
           {activeTab === "documents" && (
             <div className="bg-card border border-border rounded-xl p-8">
