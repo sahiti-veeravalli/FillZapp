@@ -3,15 +3,53 @@ import { Link } from "react-router-dom";
 import { Zap, ArrowLeft } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import GlowInput from "@/components/GlowInput";
-import GlowButton from "@/components/GlowButton";
-import CursorParticles from "@/components/CursorParticles";
+import BackgroundParticles from "@/components/BackgroundParticles";
+
+const GlowInput = ({ id, type = "text", placeholder }: { id: string; type?: string; placeholder: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+  };
+
+  const glow = useMotionTemplate`radial-gradient(180px circle at ${mouseX}px ${mouseY}px, hsla(168, 80%, 42%, 0.15), transparent 80%)`;
+
+  return (
+    <motion.div ref={ref} onMouseMove={handleMouseMove} className="relative group">
+      <motion.div
+        className="pointer-events-none absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: `linear-gradient(135deg, hsla(168, 80%, 42%, 0.3), hsla(168, 80%, 42%, 0.1))`,
+          filter: "blur(1px)",
+        }}
+      />
+      <motion.div
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: glow }}
+      />
+      <input
+        id={id}
+        type={type}
+        placeholder={placeholder}
+        className="relative z-10 flex h-10 w-full rounded-xl border border-border bg-card/80 backdrop-blur-sm px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:border-primary/50 transition-all duration-200 shadow-[0_0_0_0_hsla(168,80%,42%,0)] focus-visible:shadow-[0_0_15px_-3px_hsla(168,80%,42%,0.25)]"
+      />
+    </motion.div>
+  );
+};
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const cardMouseX = useMotionValue(0);
   const cardMouseY = useMotionValue(0);
+  const btnRef = useRef<HTMLDivElement>(null);
+  const btnMouseX = useMotionValue(0);
+  const btnMouseY = useMotionValue(0);
 
   const handleCardMouseMove = (e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -20,11 +58,20 @@ const Login = () => {
     cardMouseY.set(e.clientY - rect.top);
   };
 
-  const cardGlow = useMotionTemplate`radial-gradient(400px circle at ${cardMouseX}px ${cardMouseY}px, hsla(168, 80%, 42%, 0.06), transparent 80%)`;
+  const handleBtnMouseMove = (e: React.MouseEvent) => {
+    if (!btnRef.current) return;
+    const rect = btnRef.current.getBoundingClientRect();
+    btnMouseX.set(e.clientX - rect.left);
+    btnMouseY.set(e.clientY - rect.top);
+  };
+
+  const cardGlow = useMotionTemplate`radial-gradient(400px circle at ${cardMouseX}px ${cardMouseY}px, hsla(168, 80%, 42%, 0.05), transparent 80%)`;
+  const btnGlow = useMotionTemplate`radial-gradient(200px circle at ${btnMouseX}px ${btnMouseY}px, hsla(168, 80%, 60%, 0.25), transparent 80%)`;
 
   return (
     <div className="min-h-screen bg-background flex flex-col relative">
-      <CursorParticles />
+      <BackgroundParticles />
+
       <div className="section-container pt-8 relative z-10">
         <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm">
           <ArrowLeft className="w-4 h-4" />
@@ -52,37 +99,53 @@ const Login = () => {
           <motion.div
             ref={cardRef}
             onMouseMove={handleCardMouseMove}
-            className="relative bg-card border border-border rounded-2xl p-6 shadow-sm space-y-5 overflow-hidden"
-            style={{ background: cardGlow }}
+            className="relative border border-border rounded-2xl p-6 shadow-lg space-y-5 overflow-hidden bg-card/60 backdrop-blur-md"
           >
-            {isSignUp && (
+            {/* Card glow overlay */}
+            <motion.div className="pointer-events-none absolute inset-0 rounded-2xl" style={{ background: cardGlow }} />
+
+            <div className="relative z-10 space-y-5">
+              {isSignUp && (
+                <div className="space-y-2">
+                  <Label htmlFor="name">Full Name</Label>
+                  <GlowInput id="name" placeholder="Jane Doe" />
+                </div>
+              )}
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <GlowInput id="name" placeholder="Jane Doe" />
+                <Label htmlFor="email">Email</Label>
+                <GlowInput id="email" type="email" placeholder="you@example.com" />
               </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <GlowInput id="email" type="email" placeholder="you@example.com" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <GlowInput id="password" type="password" placeholder="••••••••" />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <GlowInput id="password" type="password" placeholder="••••••••" />
+              </div>
 
-            <GlowButton className="w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm">
-              {isSignUp ? "Sign Up" : "Sign In"}
-            </GlowButton>
-
-            <p className="text-center text-sm text-muted-foreground">
-              {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
-              <button
-                onClick={() => setIsSignUp(!isSignUp)}
-                className="text-primary font-medium hover:underline"
+              {/* Glowing button */}
+              <motion.div
+                ref={btnRef}
+                onMouseMove={handleBtnMouseMove}
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                className="relative group cursor-pointer"
               >
-                {isSignUp ? "Sign In" : "Sign Up"}
-              </button>
-            </p>
+                <div className="absolute -inset-[1px] rounded-full bg-primary/20 opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-300" />
+                <motion.div className="pointer-events-none absolute inset-0 rounded-full" style={{ background: btnGlow }} />
+                <button className="relative z-10 w-full h-10 font-display font-semibold rounded-full bg-foreground text-background hover:bg-foreground/90 inline-flex items-center justify-center text-sm shadow-[0_0_20px_-5px_hsla(168,80%,42%,0.15)] hover:shadow-[0_0_25px_-3px_hsla(168,80%,42%,0.3)] transition-shadow duration-300">
+                  {isSignUp ? "Sign Up" : "Sign In"}
+                </button>
+              </motion.div>
+
+              <p className="text-center text-sm text-muted-foreground">
+                {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+                <button
+                  onClick={() => setIsSignUp(!isSignUp)}
+                  className="text-primary font-medium hover:underline"
+                >
+                  {isSignUp ? "Sign In" : "Sign Up"}
+                </button>
+              </p>
+            </div>
           </motion.div>
         </motion.div>
       </div>
