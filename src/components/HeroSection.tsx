@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Puzzle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, useMotionValue, useTransform, useMotionTemplate } from "framer-motion";
 import { useRef } from "react";
@@ -50,6 +50,20 @@ const HeroSection = () => {
   return (
     <section className="pt-40 pb-24 px-6">
       <div className="section-container text-center">
+        {/* Chrome Extension Banner */}
+        <motion.a
+          href="#"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 120 }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          className="inline-flex items-center gap-2.5 px-6 py-3 mb-10 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 transition-shadow"
+        >
+          <Puzzle className="w-5 h-5" />
+          Get Chrome Extension
+        </motion.a>
+
         <h1 className="text-6xl sm:text-8xl lg:text-9xl font-extrabold font-display tracking-tighter leading-[0.9] mb-8 text-balance">
           Fill forms in
           <br />
