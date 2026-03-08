@@ -1,4 +1,4 @@
-import { Briefcase, ShoppingCart, Landmark, GraduationCap, HeartPulse, FileText, Plane, Home, CreditCard } from "lucide-react";
+import { Briefcase, ShoppingCart, Landmark, GraduationCap, HeartPulse, Plane } from "lucide-react";
 import { motion } from "framer-motion";
 import GlowCard from "@/components/GlowCard";
 
