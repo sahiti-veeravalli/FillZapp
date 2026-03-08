@@ -295,7 +295,8 @@ const AddFieldRow = ({ showAddField, newFieldName, setNewFieldName, newFieldNote
 );
 
 /* ── Editable Field (supports paired username + password) ── */
-const EditableField = ({ label, value, password, isEditing, isCustom, isPassword, hasPassword, notes, onEdit, onSave, onSavePair, onDelete }: {
+const EditableField = ({ fieldKey, highlighted, label, value, password, isEditing, isCustom, isPassword, hasPassword, notes, onEdit, onSave, onSavePair, onDelete }: {
+  fieldKey: string; highlighted?: boolean;
   label: string; value: string; password?: string; isEditing: boolean; isCustom?: boolean;
   isPassword?: boolean; hasPassword?: boolean; notes?: string;
   onEdit: () => void; onSave: (v: string) => void; onSavePair: (main: string, pass: string) => void; onDelete: () => void;
@@ -305,6 +306,13 @@ const EditableField = ({ label, value, password, isEditing, isCustom, isPassword
   const [passVisible, setPassVisible] = useState(false);
   useEffect(() => { setTempVal(value); }, [value]);
   useEffect(() => { setTempPass(password || ""); }, [password]);
+
+  // Auto-scroll into view when highlighted
+  useEffect(() => {
+    if (highlighted) {
+      document.getElementById(`field-${fieldKey}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [highlighted, fieldKey]);
 
   const handleSave = () => {
     if (hasPassword) {
@@ -318,9 +326,9 @@ const EditableField = ({ label, value, password, isEditing, isCustom, isPassword
 
   return (
     <div
-      id={`field-${f.key}`}
+      id={`field-${fieldKey}`}
       className={`py-3 border-b border-border last:border-b-0 transition-all duration-700 rounded-md ${
-        highlightField === f.key
+        highlighted
           ? "bg-primary/10 ring-2 ring-primary/40 shadow-[0_0_15px_hsl(var(--primary)/0.2)] px-3 -mx-3"
           : ""
       }`}
