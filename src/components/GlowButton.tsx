@@ -8,7 +8,7 @@ interface GlowButtonProps {
   type?: "button" | "submit" | "reset";
 }
 
-const GlowButton = ({ children, className = "", ...props }: GlowButtonProps) => {
+const GlowButton = ({ children, className = "", onClick, type }: GlowButtonProps) => {
   const ref = useRef<HTMLButtonElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
