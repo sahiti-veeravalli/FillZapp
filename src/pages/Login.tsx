@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
-import logoImg from "@/assets/logo.png";
+import { Zap, ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import BackgroundParticles from "@/components/BackgroundParticles";
@@ -206,7 +205,7 @@ const Login = () => {
         >
           <div className="flex flex-col items-center mb-8">
             <div className="flex items-center gap-2 font-display font-extrabold text-2xl tracking-tight mb-2">
-              <img src={logoImg} alt="FillZapp" className="w-7 h-7" />
+              <Zap className="w-6 h-6 text-primary" />
               FillZapp
             </div>
             <p className="text-muted-foreground text-sm">
