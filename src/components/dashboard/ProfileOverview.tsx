@@ -76,6 +76,11 @@ const ProfileOverview = () => {
       <div>
         <h1 className="text-3xl font-display font-bold text-foreground">Profile Overview</h1>
         <p className="text-muted-foreground mt-1">A summary of your saved information. Edit details in each section.</p>
+        <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">No field is mandatory.</span> Fill only what you're comfortable with — your data is encrypted and never shared. Add the details you find yourself typing repeatedly, and let auto-fill handle the rest.
+          </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
