@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { User, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag } from "lucide-react";
+import { User, UserCircle, Briefcase, GraduationCap, FileText, PlusCircle, Settings, Zap, LogOut, PanelLeftClose, Tag } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { type CustomField } from "@/components/dashboard/CustomFields";
