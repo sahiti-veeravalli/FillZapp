@@ -51,9 +51,12 @@ const DashboardHeader = ({ sidebarOpen, onToggleSidebar }: DashboardHeaderProps)
         >
           {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
         </button>
-        <button className="relative text-muted-foreground hover:text-foreground transition-colors">
-          <Bell className="w-5 h-5" />
-          <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
+        <button
+          onClick={() => navigate("/")}
+          className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+          title="Go to home"
+        >
+          <Home className="w-5 h-5" />
         </button>
 
         {/* Profile avatar with hover dropdown */}
