@@ -171,12 +171,35 @@ const BookmarkletSection = () => {
       <div>
         <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Zap className="w-6 h-6 text-primary" />
-          Auto-Fill Bookmarklet
+          Auto-Fill Tools
         </h2>
         <p className="text-muted-foreground mt-1">
-          Fill forms on any website — no extension needed. Just drag the button to your bookmarks bar.
+          Fill forms on any website — no extension needed. Try it out or install the bookmarklet.
         </p>
       </div>
+
+      {/* Quick Test CTA */}
+      <Card className="border-primary/50 bg-primary/5">
+        <CardContent className="pt-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className="flex-1 space-y-1">
+              <h3 className="text-lg font-semibold text-foreground">Try Auto-Fill Now</h3>
+              <p className="text-sm text-muted-foreground">
+                Open a sample job application form and see FillZapp auto-fill it with your profile data instantly.
+              </p>
+            </div>
+            <Button 
+              onClick={() => navigate("/test-form")}
+              size="lg"
+              className="gap-2 shadow-[0_0_20px_hsl(var(--primary)/0.3)] whitespace-nowrap"
+            >
+              <Zap className="w-5 h-5" />
+              Try It Now
+              <ExternalLink className="w-4 h-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Bookmarklet drag target */}
       <Card className="border-primary/30 bg-card">
