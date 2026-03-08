@@ -15,20 +15,19 @@ const CursorParticles = () => {
 
     const particles: {
       x: number; y: number; vx: number; vy: number;
-      size: number; opacity: number; hue: number;
+      size: number; opacity: number;
     }[] = [];
 
-    const COUNT = 40;
+    const COUNT = 35;
 
     for (let i = 0; i < COUNT; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
-        size: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.4 + 0.1,
-        hue: Math.random() > 0.5 ? 168 : 270,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        size: Math.random() * 2.5 + 1,
+        opacity: Math.random() * 0.15 + 0.05,
       });
     }
 
@@ -45,21 +44,20 @@ const CursorParticles = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 80%, 50%, ${p.opacity})`;
+        ctx.fillStyle = `hsla(168, 80%, 42%, ${p.opacity})`;
         ctx.fill();
       }
 
-      // Draw lines between nearby particles
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
+          if (dist < 140) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `hsla(168, 80%, 50%, ${0.08 * (1 - dist / 150)})`;
+            ctx.strokeStyle = `hsla(168, 80%, 42%, ${0.04 * (1 - dist / 140)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -87,7 +85,6 @@ const CursorParticles = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.6 }}
     />
   );
 };
