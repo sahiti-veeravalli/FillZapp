@@ -1,4 +1,4 @@
-import { Zap } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 const footerLinks = {
   product: [
