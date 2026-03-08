@@ -21,7 +21,7 @@ const menuItems = [
   { id: "government-ids", label: "Government IDs", icon: IdCard },
   { id: "financial", label: "Financial & Payments", icon: CreditCard },
   { id: "social-profiles", label: "Social Profiles", icon: Globe },
-  { id: "documents", label: "Documents", icon: FileText },
+  
   { id: "custom-fields", label: "Custom Fields", icon: PlusCircle },
   { id: "settings", label: "Settings", icon: Settings },
 ];

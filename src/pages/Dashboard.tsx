@@ -56,7 +56,7 @@ const Dashboard = () => {
           {activeTab === "government-ids" && <GovernmentIDsSection highlightField={highlightField} />}
           {activeTab === "financial" && <FinancialSection highlightField={highlightField} />}
           {activeTab === "social-profiles" && <SocialProfilesSection />}
-          {activeTab === "documents" && <DocumentsSection />}
+          
           {activeTab === "custom-fields" && (
             <CustomFields onFieldsChange={setCustomFields} />
           )}
