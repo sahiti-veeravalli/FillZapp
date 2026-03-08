@@ -36,7 +36,7 @@ interface EditableSectionProps {
   highlightField?: string | null;
 }
 
-const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFields, groups }: EditableSectionProps) => {
+const EditableSection = ({ title, subtitle, icon: Icon, firestoreKey, defaultFields, groups, highlightField }: EditableSectionProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [data, setData] = useState<Record<string, string>>({});
