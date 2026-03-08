@@ -30,7 +30,8 @@ const GlowButton = ({ children, className = "", onClick, type }: GlowButtonProps
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 400, damping: 20 }}
       className={`relative overflow-hidden ${className}`}
-      {...props}
+      onClick={onClick}
+      type={type}
     >
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[inherit]"
