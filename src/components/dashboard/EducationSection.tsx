@@ -1,11 +1,34 @@
-import EditableSection from "./EditableSection";
-import { GraduationCap } from "lucide-react";
+import EditableSection, { type FieldGroup } from "./EditableSection";
+import { GraduationCap, Award } from "lucide-react";
 
-const defaultFields = [
+const allFields = [
   { key: "university", label: "University" },
   { key: "degree", label: "Degree" },
+  { key: "fieldOfStudy", label: "Field of Study" },
   { key: "graduationYear", label: "Graduation Year" },
   { key: "gpa", label: "GPA" },
+  { key: "honors", label: "Honors / Awards" },
+];
+
+const groups: FieldGroup[] = [
+  {
+    title: "Institution",
+    icon: GraduationCap,
+    fields: [
+      { key: "university", label: "University" },
+      { key: "degree", label: "Degree" },
+      { key: "fieldOfStudy", label: "Field of Study" },
+    ],
+  },
+  {
+    title: "Academics",
+    icon: Award,
+    fields: [
+      { key: "graduationYear", label: "Graduation Year" },
+      { key: "gpa", label: "GPA" },
+      { key: "honors", label: "Honors / Awards" },
+    ],
+  },
 ];
 
 const EducationSection = () => (
@@ -14,7 +37,8 @@ const EducationSection = () => (
     subtitle="Manage your education history."
     icon={GraduationCap}
     firestoreKey="education"
-    defaultFields={defaultFields}
+    defaultFields={allFields}
+    groups={groups}
   />
 );
 
