@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bookmark, Copy, Check, Zap, GripHorizontal, AlertCircle, ExternalLink } from "lucide-react";
+import { Bookmark, Copy, Check, Zap, AlertCircle } from "lucide-react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/contexts/AuthContext";
@@ -188,51 +188,44 @@ const BookmarkletSection = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
-          {/* Drag target */}
-          <div className="flex flex-col items-center gap-4 py-6 px-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <GripHorizontal className="w-4 h-4" />
-              <span>Drag this to your bookmarks bar ↓</span>
-            </div>
-            {bookmarkletUrl ? (
-              <a
-                href={bookmarkletUrl}
-                draggable
-                title="Drag me to your bookmarks bar!"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-sm shadow-[0_0_20px_hsl(var(--primary)/0.3)] hover:shadow-[0_0_30px_hsl(var(--primary)/0.5)] transition-all duration-300 cursor-grab active:cursor-grabbing select-none"
-              >
-                <Zap className="w-4 h-4" />
-                ⚡ FillZapp
-              </a>
-            ) : (
-              <div className="text-muted-foreground text-sm">
-                No profile data found. Fill in your profile first.
-              </div>
-            )}
+          {/* Status */}
+          <div className="flex items-center justify-center">
             <Badge variant="secondary" className="text-xs">
               {fieldCount} fields loaded
             </Badge>
           </div>
 
-          {/* Alternative methods */}
-          <div className="space-y-3">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Can't drag? Try these:</p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopy}
-                disabled={!bookmarkletUrl}
-                className="gap-2"
-              >
-                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copied ? "Copied!" : "Copy bookmarklet code"}
-              </Button>
-              <span className="text-xs text-muted-foreground">
-                Then: Right-click bookmarks bar → "Add page" → paste the code as the URL
-              </span>
+          {/* Primary: Copy & manual install */}
+          {bookmarkletUrl ? (
+            <div className="space-y-4">
+              <div className="flex flex-col items-center gap-4 py-6 px-4 rounded-xl border-2 border-dashed border-primary/30 bg-primary/5">
+                <p className="text-sm font-medium text-foreground">Step 1: Copy the bookmarklet code</p>
+                <Button
+                  onClick={handleCopy}
+                  size="lg"
+                  className="gap-2 shadow-[0_0_20px_hsl(var(--primary)/0.3)]"
+                >
+                  {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  {copied ? "Copied!" : "Copy FillZapp Bookmarklet"}
+                </Button>
+              </div>
+
+              <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-2">
+                <p className="text-sm font-medium text-foreground">Step 2: Add to bookmarks bar</p>
+                <ol className="text-sm text-muted-foreground space-y-1.5 list-decimal list-inside">
+                  <li>Show bookmarks bar: <kbd className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">Ctrl+Shift+B</kbd> (or <kbd className="px-1.5 py-0.5 rounded bg-muted text-xs font-mono">⌘+Shift+B</kbd> on Mac)</li>
+                  <li>Right-click on the bookmarks bar → <strong className="text-foreground">"Add page"</strong> or <strong className="text-foreground">"Add bookmark"</strong></li>
+                  <li>Set name as <strong className="text-foreground">⚡ FillZapp</strong></li>
+                  <li>Paste the copied code as the <strong className="text-foreground">URL</strong></li>
+                  <li>Click <strong className="text-foreground">Save</strong></li>
+                </ol>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center text-muted-foreground text-sm py-6">
+              No profile data found. Fill in your profile first.
+            </div>
+          )}
         </CardContent>
       </Card>
 
