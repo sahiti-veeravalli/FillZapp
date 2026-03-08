@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { Zap, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { useState, useRef } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Zap, ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import BackgroundParticles from "@/components/BackgroundParticles";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 const GlowInput = ({
   id,
