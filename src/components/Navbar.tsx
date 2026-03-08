@@ -1,10 +1,12 @@
-import { Zap, Moon, Sun } from "lucide-react";
+import { Zap, Moon, Sun, Puzzle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
   const { theme, toggle } = useTheme();
+  const { user } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
@@ -27,6 +29,10 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" onClick={toggle} className="rounded-full">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
+          <a href="#" className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-shadow">
+            <Puzzle className="w-4 h-4" />
+            Get Chrome Extension
+          </a>
           <Link to="/login"><Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Log in</Button></Link>
         </div>
       </div>
