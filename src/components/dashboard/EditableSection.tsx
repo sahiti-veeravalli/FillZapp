@@ -315,7 +315,14 @@ const EditableField = ({ label, value, password, isEditing, isCustom, isPassword
   const maskedPass = password ? "••••••••" : "—";
 
   return (
-    <div className="py-3 border-b border-border last:border-b-0">
+    <div
+      id={`field-${f.key}`}
+      className={`py-3 border-b border-border last:border-b-0 transition-all duration-700 rounded-md ${
+        highlightField === f.key
+          ? "bg-primary/10 ring-2 ring-primary/40 shadow-[0_0_15px_hsl(var(--primary)/0.2)] px-3 -mx-3"
+          : ""
+      }`}
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 mb-1">
           <p className="text-xs font-medium text-muted-foreground">{label}</p>
