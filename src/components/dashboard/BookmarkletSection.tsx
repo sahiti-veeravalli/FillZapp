@@ -42,11 +42,25 @@ function flattenData(obj: Record<string, any>, prefix = ""): Record<string, stri
   const result: Record<string, string> = {};
   for (const [key, value] of Object.entries(obj)) {
     if (value === undefined || value === null || value === "") continue;
+    
+    // Handle customFields array specially
+    if (key === "customFields" && Array.isArray(value)) {
+      for (const section of value) {
+        if (section?.entries && Array.isArray(section.entries)) {
+          for (const entry of section.entries) {
+            if (entry?.label?.trim() && entry?.value?.trim()) {
+              result[entry.label.trim()] = entry.value.trim();
+            }
+          }
+        }
+      }
+      continue;
+    }
+    
     if (Array.isArray(value)) {
       const joined = value.filter(Boolean).join(", ");
       if (joined) result[key] = joined;
     } else if (typeof value === "object") {
-      // Recursively flatten nested objects, skip empty ones
       const nested = flattenData(value, prefix);
       Object.assign(result, nested);
     } else {
