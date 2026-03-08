@@ -21,7 +21,6 @@ const CustomFields = ({ onFieldsChange }: CustomFieldsProps) => {
   const { toast } = useToast();
   const [fields, setFields] = useState<CustomField[]>([]);
   const [fieldName, setFieldName] = useState("");
-  const [fieldValue, setFieldValue] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
