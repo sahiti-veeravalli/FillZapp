@@ -86,10 +86,21 @@ const ProfileOverview = ({ highlightField }: { highlightField?: string | null })
   
   const educationFields = getFields(defaultEducation, "education");
 
+  const displayName = data.fullName || user?.displayName || "User";
+
   return (
     <div className="space-y-6">
+      {/* Welcome banner */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-foreground">Profile Overview</h1>
+        <h1 className="text-4xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', 'Courier New', monospace" }}>
+          <span className="text-foreground">Welcome </span>
+          <span className="text-primary">{displayName}</span>
+          <span className="inline-block w-[3px] h-[1.1em] bg-primary align-middle ml-1 animate-[blink_1s_step-end_infinite]" />
+        </h1>
+      </div>
+
+      <div>
+        <h2 className="text-2xl font-display font-bold text-foreground">Profile Overview</h2>
         <p className="text-muted-foreground mt-1">A summary of your saved information. Edit details in each section.</p>
         <div className="mt-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
           <p className="text-sm text-muted-foreground">
