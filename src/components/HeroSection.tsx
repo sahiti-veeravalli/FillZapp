@@ -48,7 +48,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="w-full px-6">
+    <section className="pt-40 pb-24 px-6">
       <div className="section-container text-center">
         <h1 className="text-6xl sm:text-8xl lg:text-9xl font-extrabold font-display tracking-tighter leading-[0.9] mb-8 text-balance">
           Fill forms in
