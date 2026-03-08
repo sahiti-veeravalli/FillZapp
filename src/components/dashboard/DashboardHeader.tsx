@@ -38,11 +38,14 @@ const DashboardHeader = ({ sidebarOpen, onToggleSidebar, onSearchOpen }: Dashboa
             <PanelLeft className="w-5 h-5" />
           </button>
         )}
-        <div className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2 w-64">
+        <button
+          onClick={onSearchOpen}
+          className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2 w-64 hover:bg-muted/80 transition-colors"
+        >
           <Search className="w-4 h-4 text-muted-foreground" />
           <span className="text-sm text-muted-foreground">Search...</span>
           <span className="ml-auto text-xs text-muted-foreground border border-border rounded px-1.5 py-0.5">⌘K</span>
-        </div>
+        </button>
       </div>
       <div className="flex items-center gap-4">
         <button
