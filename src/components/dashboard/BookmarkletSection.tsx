@@ -106,12 +106,23 @@ const BookmarkletSection = () => {
         if (snap.exists()) {
           const raw = snap.data();
           const flat = flattenData(raw);
-          // Remove metadata fields
-          delete flat.createdAt;
-          delete flat.updatedAt;
-          setUserData(flat);
-          setFieldCount(Object.keys(flat).length);
-          setBookmarkletUrl(generateBookmarkletCode(flat));
+          // Remove metadata fields and password fields
+          const keysToRemove = Object.keys(flat).filter(
+            (k) => k === "createdAt" || k === "updatedAt" || k.toLowerCase().includes("password")
+          );
+          keysToRemove.forEach((k) => delete flat[k]);
+          
+          // Only keep fields that have actual values
+          const cleanData: Record<string, string> = {};
+          for (const [k, v] of Object.entries(flat)) {
+            if (v && v.trim() && v !== "undefined" && v !== "null") {
+              cleanData[k] = v;
+            }
+          }
+          
+          setUserData(cleanData);
+          setFieldCount(Object.keys(cleanData).length);
+          setBookmarkletUrl(generateBookmarkletCode(cleanData));
         }
       } catch (err) {
         console.error("Failed to load user data for bookmarklet", err);
