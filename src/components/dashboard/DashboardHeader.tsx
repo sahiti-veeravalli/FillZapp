@@ -1,4 +1,5 @@
-import { Bell, Search, PanelLeft } from "lucide-react";
+import { Bell, Search, PanelLeft, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 
 interface DashboardHeaderProps {
   sidebarOpen: boolean;
@@ -6,6 +7,8 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader = ({ sidebarOpen, onToggleSidebar }: DashboardHeaderProps) => {
+  const { theme, toggle } = useTheme();
+
   return (
     <header className="h-16 border-b border-border bg-background flex items-center justify-between px-6">
       <div className="flex items-center gap-3">
@@ -25,6 +28,13 @@ const DashboardHeader = ({ sidebarOpen, onToggleSidebar }: DashboardHeaderProps)
         </div>
       </div>
       <div className="flex items-center gap-4">
+        <button
+          onClick={toggle}
+          className="p-2 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        >
+          {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
         <button className="relative text-muted-foreground hover:text-foreground transition-colors">
           <Bell className="w-5 h-5" />
           <span className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full" />
