@@ -13,6 +13,7 @@ interface DashboardSidebarProps {
 
 const menuItems = [
   { id: "overview", label: "Overview", icon: User },
+  { id: "personal", label: "Personal Info", icon: UserCircle },
   { id: "professional", label: "Professional", icon: Briefcase },
   { id: "education", label: "Education", icon: GraduationCap },
   { id: "documents", label: "Documents", icon: FileText },

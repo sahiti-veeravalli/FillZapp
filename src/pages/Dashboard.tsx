@@ -31,6 +31,7 @@ const Dashboard = () => {
         />
         <main className="flex-1 p-6 overflow-auto">
           {activeTab === "overview" && <ProfileOverview />}
+          {activeTab === "personal" && <PersonalInfoSection />}
           {activeTab === "professional" && <ProfessionalSection />}
           {activeTab === "education" && <EducationSection />}
 
