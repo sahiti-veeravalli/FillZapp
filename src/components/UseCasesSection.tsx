@@ -1,4 +1,4 @@
-import { Briefcase, ShoppingCart, Landmark, GraduationCap } from "lucide-react";
+import { Briefcase, ShoppingCart, Landmark, GraduationCap, HeartPulse, FileText, Plane, Home, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
 import GlowCard from "@/components/GlowCard";
 
@@ -12,7 +12,7 @@ const useCases = [
   },
   {
     icon: ShoppingCart,
-    title: "Online Checkouts",
+    title: "Online Shopping",
     badge: "30 sec checkouts",
     badgeColor: "text-primary",
     desc: "Fill shipping, billing, and contact info at lightning speed. No more retyping your address on every site.",
@@ -30,6 +30,41 @@ const useCases = [
     badge: "10x faster apps",
     badgeColor: "text-primary",
     desc: "Apply to multiple colleges with consistent, accurate data. Education history auto-filled perfectly.",
+  },
+  {
+    icon: HeartPulse,
+    title: "Healthcare Forms",
+    badge: "No more clipboards",
+    badgeColor: "text-primary",
+    desc: "Patient intake, insurance info, and medical history—auto-filled before your appointment even starts.",
+  },
+  {
+    icon: FileText,
+    title: "Insurance Claims",
+    badge: "Hassle-free",
+    badgeColor: "text-primary",
+    desc: "File claims faster with pre-filled policy numbers, personal details, and incident information.",
+  },
+  {
+    icon: Plane,
+    title: "Travel Bookings",
+    badge: "Fly faster",
+    badgeColor: "text-primary",
+    desc: "Passport details, frequent flyer numbers, and contact info filled across every booking site instantly.",
+  },
+  {
+    icon: Home,
+    title: "Rental Applications",
+    badge: "Move-in ready",
+    badgeColor: "text-primary",
+    desc: "Employment history, references, and personal details auto-filled for every apartment application.",
+  },
+  {
+    icon: CreditCard,
+    title: "Financial Services",
+    badge: "Bank-grade fast",
+    badgeColor: "text-primary",
+    desc: "Open accounts, apply for loans, and fill KYC forms with your stored financial details in seconds.",
   },
 ];
 
