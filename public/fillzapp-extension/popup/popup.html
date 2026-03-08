@@ -123,6 +123,18 @@
       margin-top: 8px;
     }
     .field-count strong { color: #14b8a6; }
+    .fallback-notice {
+      font-size: 11px;
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .fallback-notice a {
+      color: #14b8a6;
+      cursor: pointer;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -143,9 +155,14 @@
       <span>Confirm before fill</span>
       <div id="toggle-confirm" class="toggle active"></div>
     </div>
+    <div class="toggle-row">
+      <span>Always show button</span>
+      <div id="toggle-force" class="toggle"></div>
+    </div>
   </div>
 
   <button id="trigger-btn" class="btn btn-trigger">🎯 Fill This Page Now</button>
+  <p class="fallback-notice">Button not showing? <a id="force-show-link">Force show on this page</a></p>
   <button id="sync-btn" class="btn btn-primary">⚡ Sync Profile Data</button>
   <button id="dashboard-btn" class="btn btn-secondary">Open Dashboard</button>
 

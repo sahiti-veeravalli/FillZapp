@@ -6,15 +6,17 @@ const DASHBOARD_URL = "https://your-fillzapp-app.lovable.app/dashboard";
 const statusEl = document.getElementById("status");
 const toggleAutofill = document.getElementById("toggle-autofill");
 const toggleConfirm = document.getElementById("toggle-confirm");
+const toggleForce = document.getElementById("toggle-force");
 const syncBtn = document.getElementById("sync-btn");
 const triggerBtn = document.getElementById("trigger-btn");
+const forceShowLink = document.getElementById("force-show-link");
 const dashboardBtn = document.getElementById("dashboard-btn");
 const fieldCountEl = document.getElementById("field-count");
 
 // Load saved state
 chrome.storage.local.get(["profileData", "settings", "uid"], (result) => {
   const data = result.profileData || {};
-  const settings = result.settings || { autofillEnabled: true, confirmBeforeFill: true };
+  const settings = result.settings || { autofillEnabled: true, confirmBeforeFill: true, alwaysShowButton: false };
   const uid = result.uid;
 
   const fieldCount = Object.keys(data).filter(k => data[k] && !k.includes("customFields")).length;
@@ -31,6 +33,7 @@ chrome.storage.local.get(["profileData", "settings", "uid"], (result) => {
 
   if (!settings.autofillEnabled) toggleAutofill.classList.remove("active");
   if (!settings.confirmBeforeFill) toggleConfirm.classList.remove("active");
+  if (settings.alwaysShowButton) toggleForce.classList.add("active");
 });
 
 // Toggle handlers
@@ -44,10 +47,16 @@ toggleConfirm.onclick = () => {
   saveSettings();
 };
 
+toggleForce.onclick = () => {
+  toggleForce.classList.toggle("active");
+  saveSettings();
+};
+
 function saveSettings() {
   const settings = {
     autofillEnabled: toggleAutofill.classList.contains("active"),
     confirmBeforeFill: toggleConfirm.classList.contains("active"),
+    alwaysShowButton: toggleForce.classList.contains("active"),
   };
   chrome.runtime.sendMessage({ type: "SAVE_SETTINGS", settings });
 }
@@ -58,6 +67,17 @@ triggerBtn.onclick = () => {
     if (tabs[0]) {
       chrome.tabs.sendMessage(tabs[0].id, { type: "MANUAL_TRIGGER" });
       window.close();
+    }
+  });
+};
+
+// Force show button on current page
+forceShowLink.onclick = () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0]) {
+      chrome.tabs.sendMessage(tabs[0].id, { type: "FORCE_SHOW_BUTTON" });
+      forceShowLink.textContent = "✓ Button injected!";
+      setTimeout(() => { forceShowLink.textContent = "Force show on this page"; }, 2000);
     }
   });
 };
