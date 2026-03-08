@@ -1,4 +1,4 @@
-import { Zap, Moon, Sun, Puzzle } from "lucide-react";
+import { Zap, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
