@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, MessageSquare, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ContactSection = () => {
@@ -21,7 +21,7 @@ const ContactSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
           {[
             {
               icon: Mail,
@@ -30,15 +30,9 @@ const ContactSection = () => {
               href: "mailto:hello@fillzapp.com",
             },
             {
-              icon: MessageSquare,
-              title: "Chat with us",
-              detail: "We reply within 24h",
-              href: "#",
-            },
-            {
               icon: MapPin,
               title: "Location",
-              detail: "San Francisco, CA",
+              detail: "Hyderabad, India",
               href: "#",
             },
           ].map((item, i) => (
