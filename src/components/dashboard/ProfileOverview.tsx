@@ -95,7 +95,7 @@ const ProfileOverview = ({ highlightField }: { highlightField?: string | null })
         <h1 className="text-4xl font-bold tracking-tight" style={{ fontFamily: "'Space Grotesk', 'Courier New', monospace" }}>
           <span className="text-foreground">Welcome </span>
           <span className="text-primary">{displayName}</span>
-          <span className="inline-block w-[3px] h-[1.1em] bg-primary align-middle ml-1 animate-[blink_1s_step-end_infinite]" />
+          <span className="text-primary animate-[blink_1s_step-end_infinite]">_</span>
         </h1>
       </div>
 
