@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useTheme } from "@/hooks/use-theme";
 import { useAuth } from "@/contexts/AuthContext";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const { theme, toggle } = useTheme();
@@ -29,11 +30,25 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" onClick={toggle} className="rounded-full">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </Button>
-          <a href="#" className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-shadow">
+          <motion.a
+            href="#"
+            whileHover={{ scale: 1.07, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground font-display font-semibold text-sm shadow-md shadow-primary/20 hover:shadow-[0_0_20px_hsla(168,80%,42%,0.5),0_0_40px_hsla(168,80%,42%,0.2)] transition-shadow duration-300"
+          >
             <Puzzle className="w-4 h-4" />
             Get Chrome Extension
-          </a>
-          <Link to="/login"><Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90">Log in</Button></Link>
+          </motion.a>
+          <Link to="/login">
+            <motion.div
+              whileHover={{ scale: 1.07, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+            >
+              <Button size="sm" className="font-display font-semibold rounded-full px-5 bg-foreground text-background hover:bg-foreground/90 hover:shadow-[0_0_20px_hsla(0,0%,50%,0.4),0_0_40px_hsla(0,0%,50%,0.15)] transition-shadow duration-300">Log in</Button>
+            </motion.div>
+          </Link>
         </div>
       </div>
     </nav>
