@@ -12,9 +12,9 @@ const steps = [
   },
   {
     icon: ScanSearch,
-    title: "Drag the bookmarklet",
+    title: "Install the extension",
     description:
-      'Go to your dashboard\'s Auto-Fill Tool tab and drag the "⚡ FillZapp" button to your bookmarks bar. One-time setup, takes 5 seconds.',
+      "Add the FillZapp Chrome extension in one click. It sits quietly in your browser, ready to fill any form instantly.",
   },
   {
     icon: CheckCircle2,

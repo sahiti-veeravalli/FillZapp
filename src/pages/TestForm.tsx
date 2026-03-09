@@ -262,7 +262,7 @@ const TestForm = () => {
             <CardTitle className="text-lg">How it works on real sites</CardTitle>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground space-y-2">
-            <p>This test form demonstrates the same matching logic used by the FillZapp bookmarklet and Chrome extension:</p>
+            <p>This test form demonstrates the same smart matching logic used by FillZapp:</p>
             <ol className="list-decimal list-inside space-y-1">
               <li>FillZapp reads form field labels (like "Full Name", "Email Address")</li>
               <li>It matches them to your stored profile data using smart synonym matching</li>
