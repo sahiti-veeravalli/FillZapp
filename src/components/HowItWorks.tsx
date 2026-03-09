@@ -12,15 +12,15 @@ const steps = [
   },
   {
     icon: ScanSearch,
-    title: "Install the extension",
+    title: "Open any form",
     description:
-      "Add the FillZapp Chrome extension in one click. It sits quietly in your browser, ready to fill any form instantly.",
+      "Navigate to any job application or online form. FillZapp's smart matching detects the fields automatically.",
   },
   {
     icon: CheckCircle2,
     title: "One-click fill",
     description:
-      "Visit any form on the web and click the FillZapp bookmark. Fields are instantly filled and highlighted — no extensions needed.",
+      "Click auto-fill and watch your data populate instantly. Fields are matched using intelligent synonym detection.",
   },
 ];
 
