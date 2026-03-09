@@ -12,7 +12,7 @@ const features = [
   {
     icon: RefreshCw,
     title: "Always in sync",
-    desc: "Update info on the dashboard and regenerate your bookmarklet to pick up changes instantly.",
+    desc: "Update info on the dashboard and your profile is instantly used the next time you auto-fill.",
   },
   {
     icon: Layout,
