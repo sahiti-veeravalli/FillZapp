@@ -453,7 +453,7 @@ function createFAB() {
         showToast("⚡ No matching fields found on this page", "error");
       }
     } catch (err) {
-      showToast("⚡ " + err.message, "error");
+      if (err.message !== "REDIRECT") showToast("⚡ " + err.message, "error");
     }
     fab.style.pointerEvents = "";
     fab.style.opacity = "";
