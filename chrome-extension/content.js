@@ -211,7 +211,7 @@ function createFieldButton(el, dataKey, labelText) {
         showToast(`⚡ No data found for "${labelText}"`, "error");
       }
     } catch (err) {
-      showToast("⚡ " + err.message, "error");
+      if (err.message !== "REDIRECT") showToast("⚡ " + err.message, "error");
     }
 
     btn.classList.remove("fillzapp-field-btn-loading");
@@ -392,7 +392,8 @@ async function getProfileData() {
 
   const stored = await new Promise((r) => chrome.storage.local.get(["fz_token", "fz_uid"], r));
   if (!stored.fz_token || !stored.fz_uid) {
-    throw new Error("Please sign in via the FillZapp extension first");
+    window.open("https://fillzapp.com/login", "_blank");
+    throw new Error("REDIRECT");
   }
 
   let token = stored.fz_token;
@@ -452,7 +453,7 @@ function createFAB() {
         showToast("⚡ No matching fields found on this page", "error");
       }
     } catch (err) {
-      showToast("⚡ " + err.message, "error");
+      if (err.message !== "REDIRECT") showToast("⚡ " + err.message, "error");
     }
     fab.style.pointerEvents = "";
     fab.style.opacity = "";
