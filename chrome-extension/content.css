@@ -1,3 +1,4 @@
+/* Toast */
 .fillzapp-toast {
   position: fixed;
   bottom: 24px;
@@ -23,7 +24,45 @@
   color: #a78bfa;
 }
 
-/* Floating Action Button */
+/* Per-field autofill button */
+.fillzapp-field-btn {
+  position: absolute;
+  z-index: 2147483645;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+  user-select: none;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1;
+}
+.fillzapp-field-btn:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.6);
+}
+.fillzapp-field-btn:active {
+  transform: scale(0.9);
+}
+.fillzapp-field-btn-loading {
+  animation: fillzapp-spin 0.8s linear infinite;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.fillzapp-field-btn-done {
+  background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+  border-color: rgba(255,255,255,0.3) !important;
+}
+
+/* FAB */
 #fillzapp-fab {
   position: fixed;
   bottom: 28px;
