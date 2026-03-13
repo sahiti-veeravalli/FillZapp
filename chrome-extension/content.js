@@ -211,7 +211,7 @@ function createFieldButton(el, dataKey, labelText) {
         showToast(`⚡ No data found for "${labelText}"`, "error");
       }
     } catch (err) {
-      showToast("⚡ " + err.message, "error");
+      if (err.message !== "REDIRECT") showToast("⚡ " + err.message, "error");
     }
 
     btn.classList.remove("fillzapp-field-btn-loading");
