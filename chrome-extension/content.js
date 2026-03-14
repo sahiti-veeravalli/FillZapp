@@ -183,7 +183,12 @@ function createFieldButton(el, dataKey, labelText) {
 
   const btn = document.createElement("div");
   btn.className = "fillzapp-field-btn";
-  btn.innerHTML = `⚡`;
+  const icon = document.createElement("img");
+  icon.src = chrome.runtime.getURL("icons/bolt.png");
+  icon.style.width = "14px";
+  icon.style.height = "14px";
+  icon.style.pointerEvents = "none";
+  btn.appendChild(icon);
   btn.title = `Auto-fill: ${labelText}`;
   btn.setAttribute("data-fillzapp-key", dataKey);
 
