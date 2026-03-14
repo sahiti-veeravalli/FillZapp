@@ -22,10 +22,10 @@
       background: hsla(168, 80%, 42%, 0.2);
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      color: #fff;
-      text-shadow: 0 0 8px hsla(168, 80%, 42%, 0.8);
       border: 1px solid hsla(168, 80%, 42%, 0.4);
+    }
+    .header .logo img {
+      width: 20px; height: 20px;
     }
     .header h1 { font-size: 16px; font-weight: 700; }
     .header .version { font-size: 11px; color: #71717a; margin-left: auto; }
@@ -97,7 +97,9 @@
 </head>
 <body>
   <div class="header">
-    <div class="logo">⚡</div>
+    <div class="logo">
+      <img src="icons/bolt.png" alt="FillZapp">
+    </div>
     <h1>FillZapp</h1>
     <span class="version">v1.0</span>
   </div>
