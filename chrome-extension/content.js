@@ -318,7 +318,13 @@ function fillForm(data) {
       btn.innerHTML = "✓";
       btn.classList.add("fillzapp-field-btn-done");
       setTimeout(() => {
-        btn.innerHTML = "⚡";
+        btn.innerHTML = "";
+        const icon = document.createElement("img");
+        icon.src = chrome.runtime.getURL("icons/bolt.png");
+        icon.style.width = "14px";
+        icon.style.height = "14px";
+        icon.style.pointerEvents = "none";
+        btn.appendChild(icon);
         btn.classList.remove("fillzapp-field-btn-done");
       }, 2000);
     }
