@@ -183,12 +183,7 @@ function createFieldButton(el, dataKey, labelText) {
 
   const btn = document.createElement("div");
   btn.className = "fillzapp-field-btn";
-  const icon = document.createElement("img");
-  icon.src = chrome.runtime.getURL("icons/bolt.png");
-  icon.style.width = "14px";
-  icon.style.height = "14px";
-  icon.style.pointerEvents = "none";
-  btn.appendChild(icon);
+  btn.innerHTML = `⚡`;
   btn.title = `Auto-fill: ${labelText}`;
   btn.setAttribute("data-fillzapp-key", dataKey);
 
@@ -209,13 +204,7 @@ function createFieldButton(el, dataKey, labelText) {
         btn.innerHTML = "✓";
         btn.classList.add("fillzapp-field-btn-done");
         setTimeout(() => {
-          btn.innerHTML = "";
-          const icon = document.createElement("img");
-          icon.src = chrome.runtime.getURL("icons/bolt.png");
-          icon.style.width = "14px";
-          icon.style.height = "14px";
-          icon.style.pointerEvents = "none";
-          btn.appendChild(icon);
+          btn.innerHTML = "⚡";
           btn.classList.remove("fillzapp-field-btn-done");
         }, 2000);
       } else {
@@ -318,13 +307,7 @@ function fillForm(data) {
       btn.innerHTML = "✓";
       btn.classList.add("fillzapp-field-btn-done");
       setTimeout(() => {
-        btn.innerHTML = "";
-        const icon = document.createElement("img");
-        icon.src = chrome.runtime.getURL("icons/bolt.png");
-        icon.style.width = "14px";
-        icon.style.height = "14px";
-        icon.style.pointerEvents = "none";
-        btn.appendChild(icon);
+        btn.innerHTML = "⚡";
         btn.classList.remove("fillzapp-field-btn-done");
       }, 2000);
     }
@@ -445,12 +428,7 @@ function createFAB() {
 
   const fab = document.createElement("div");
   fab.id = "fillzapp-fab";
-  const icon = document.createElement("img");
-  icon.src = chrome.runtime.getURL("icons/bolt.png");
-  icon.style.width = "28px";
-  icon.style.height = "28px";
-  icon.style.pointerEvents = "none";
-  fab.appendChild(icon);
+  fab.innerHTML = "⚡";
   fab.title = "FillZapp – Auto-fill ALL fields";
   document.body.appendChild(fab);
 
