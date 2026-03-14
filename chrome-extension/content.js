@@ -445,7 +445,12 @@ function createFAB() {
 
   const fab = document.createElement("div");
   fab.id = "fillzapp-fab";
-  fab.innerHTML = "⚡";
+  const icon = document.createElement("img");
+  icon.src = chrome.runtime.getURL("icons/bolt.png");
+  icon.style.width = "28px";
+  icon.style.height = "28px";
+  icon.style.pointerEvents = "none";
+  fab.appendChild(icon);
   fab.title = "FillZapp – Auto-fill ALL fields";
   document.body.appendChild(fab);
 
