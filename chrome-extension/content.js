@@ -183,7 +183,7 @@ function createFieldButton(el, dataKey, labelText) {
 
   const btn = document.createElement("div");
   btn.className = "fillzapp-field-btn";
-  btn.innerHTML = `⚡`;
+  btn.innerHTML = `<img src="${chrome.runtime.getURL('icons/bolt.png')}" style="width:16px;height:16px;pointer-events:none;">`;
   btn.title = `Auto-fill: ${labelText}`;
   btn.setAttribute("data-fillzapp-key", dataKey);
 
@@ -201,10 +201,10 @@ function createFieldButton(el, dataKey, labelText) {
           setNativeValue(el, data[dataKey]);
         }
         highlightField(el);
-        btn.innerHTML = "✓";
+        btn.innerHTML = `<span style="font-size:14px;color:#fff;">✓</span>`;
         btn.classList.add("fillzapp-field-btn-done");
         setTimeout(() => {
-          btn.innerHTML = "⚡";
+          btn.innerHTML = `<img src="${chrome.runtime.getURL('icons/bolt.png')}" style="width:16px;height:16px;pointer-events:none;">`;
           btn.classList.remove("fillzapp-field-btn-done");
         }, 2000);
       } else {
@@ -304,10 +304,10 @@ function fillForm(data) {
     // Mark button as done
     if (fieldButtons.has(el)) {
       const btn = fieldButtons.get(el);
-      btn.innerHTML = "✓";
+      btn.innerHTML = `<span style="font-size:14px;color:#fff;">✓</span>`;
       btn.classList.add("fillzapp-field-btn-done");
       setTimeout(() => {
-        btn.innerHTML = "⚡";
+        btn.innerHTML = `<img src="${chrome.runtime.getURL('icons/bolt.png')}" style="width:16px;height:16px;pointer-events:none;">`;
         btn.classList.remove("fillzapp-field-btn-done");
       }, 2000);
     }
@@ -428,7 +428,7 @@ function createFAB() {
 
   const fab = document.createElement("div");
   fab.id = "fillzapp-fab";
-  fab.innerHTML = "⚡";
+  fab.innerHTML = `<img src="${chrome.runtime.getURL('icons/bolt.png')}" style="width:28px;height:28px;pointer-events:none;">`;
   fab.title = "FillZapp – Auto-fill ALL fields";
   document.body.appendChild(fab);
 

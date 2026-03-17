@@ -42,8 +42,8 @@
   transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
   user-select: none;
   border: 1.5px solid rgba(255,255,255,0.2);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1;
+  overflow: hidden;
 }
 .fillzapp-field-btn:hover {
   transform: scale(1.2);
