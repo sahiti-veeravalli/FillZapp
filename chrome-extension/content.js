@@ -204,7 +204,7 @@ function createFieldButton(el, dataKey, labelText) {
         btn.innerHTML = `<span style="font-size:14px;color:#fff;">✓</span>`;
         btn.classList.add("fillzapp-field-btn-done");
         setTimeout(() => {
-          btn.innerHTML = "⚡";
+          btn.innerHTML = `<img src="${chrome.runtime.getURL('icons/bolt.png')}" style="width:16px;height:16px;pointer-events:none;">`;
           btn.classList.remove("fillzapp-field-btn-done");
         }, 2000);
       } else {
