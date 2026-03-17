@@ -304,10 +304,10 @@ function fillForm(data) {
     // Mark button as done
     if (fieldButtons.has(el)) {
       const btn = fieldButtons.get(el);
-      btn.innerHTML = "✓";
+      btn.innerHTML = `<span style="font-size:14px;color:#fff;">✓</span>`;
       btn.classList.add("fillzapp-field-btn-done");
       setTimeout(() => {
-        btn.innerHTML = "⚡";
+        btn.innerHTML = `<img src="${chrome.runtime.getURL('icons/bolt.png')}" style="width:16px;height:16px;pointer-events:none;">`;
         btn.classList.remove("fillzapp-field-btn-done");
       }, 2000);
     }
