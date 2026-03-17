@@ -201,7 +201,7 @@ function createFieldButton(el, dataKey, labelText) {
           setNativeValue(el, data[dataKey]);
         }
         highlightField(el);
-        btn.innerHTML = "✓";
+        btn.innerHTML = `<span style="font-size:14px;color:#fff;">✓</span>`;
         btn.classList.add("fillzapp-field-btn-done");
         setTimeout(() => {
           btn.innerHTML = "⚡";
